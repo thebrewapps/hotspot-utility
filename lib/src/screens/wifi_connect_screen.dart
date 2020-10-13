@@ -42,7 +42,6 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
     wifiConnectionStatusStreamController.close();
     wifiConnectionSuccessStreamController.close();
 
-    /*
     widget.wifiSsidChar.setNotifyValue(false).then((value) {
       print("WiFi SSID Char Notification Enabled Result: " + value.toString());
 
@@ -52,7 +51,6 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
       });
     });
 
-     */
   }
 
   @protected
@@ -257,9 +255,6 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                   stream: wifiConnectionSuccessStreamController.stream,
                   initialData: false,
                   builder: (c, snapshot) {
-                    /// To remove
-                    return Icon(Icons.check_circle, color: Colors.green,);
-                    /// To remove
                     if (snapshot.data == true) {
                       return Icon(Icons.check_circle, color: Colors.green,);
                     } else {
@@ -297,7 +292,6 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
               controller: passwordController,
               obscureText: _obscureText,
             )),
-        /*
         StreamBuilder<List<int>>(
             stream: widget.wifiSsidChar.value,
             builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
@@ -334,7 +328,6 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                 return Container();
             }),
 
-         */
         Container(
             width: double.infinity,
             margin: const EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),

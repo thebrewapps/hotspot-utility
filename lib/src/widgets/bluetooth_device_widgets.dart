@@ -9,12 +9,6 @@ class ScanResultTile extends StatelessWidget {
   final VoidCallback onTap;
 
   Widget _buildTitle(BuildContext context) {
-    /// To remove
-    if (result == null) {
-      return Text('test');
-    }
-
-    /// To remove
     if (result.device.name.length > 0) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -37,18 +31,14 @@ class ScanResultTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title, style: Theme
-              .of(context)
-              .textTheme
-              .caption),
+          Text(title, style: Theme.of(context).textTheme.caption),
           SizedBox(
             width: 12.0,
           ),
           Expanded(
             child: Text(
               value,
-              style: Theme
-                  .of(context)
+              style: Theme.of(context)
                   .textTheme
                   .caption
                   .apply(color: Colors.black),
@@ -61,8 +51,7 @@ class ScanResultTile extends StatelessWidget {
   }
 
   String getNiceHexArray(List<int> bytes) {
-    return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join(
-        ', ')}]'
+    return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join(', ')}]'
         .toUpperCase();
   }
 
@@ -94,12 +83,6 @@ class ScanResultTile extends StatelessWidget {
     return ExpansionTile(
       title: _buildTitle(context),
       leading: (() {
-        /// To remove
-        if (result == null) {
-          return Icon(MaterialCommunityIcons.signal_cellular_1);
-        }
-
-        /// To remove
         if (result.rssi <= -100) {
           return Icon(MaterialCommunityIcons.signal_cellular_1);
         } else if (result.rssi > -100 && result.rssi <= -70) {
@@ -122,34 +105,10 @@ class ScanResultTile extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 16.0),
           ),
-          onPressed:
-
-          /// To remove
-          (result == null)
-              ? onTap
-              :
-
-          /// To remove
-          (result.advertisementData.connectable) ? onTap : null,
+          onPressed: (result.advertisementData.connectable) ? onTap : null,
         ),
       ),
-      children:
-
-      /// To remove
-      (result == null)
-          ? <Widget>[
-        _buildAdvRow(
-            context, 'Complete Local Name',
-            'result.advertisementData.localName'),
-        _buildAdvRow(
-            context,
-            'Service UUIDs',
-            'N/A'),
-      ]
-          :
-
-      /// To remove
-      <Widget>[
+      children: <Widget>[
         _buildAdvRow(
             context, 'Complete Local Name', result.advertisementData.localName),
         _buildAdvRow(
@@ -180,15 +139,10 @@ class ServiceTile extends StatelessWidget {
           children: <Widget>[
             Text('Service'),
             Text('0x${service.uuid.toString().toUpperCase().substring(4, 8)}',
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .body1
-                    .copyWith(color: Theme
-                    .of(context)
-                    .textTheme
-                    .caption
-                    .color))
+                    .copyWith(color: Theme.of(context).textTheme.caption.color))
           ],
         ),
         children: characteristicTiles,
@@ -197,7 +151,7 @@ class ServiceTile extends StatelessWidget {
       return ListTile(
         title: Text('Service'),
         subtitle:
-        Text('0x${service.uuid.toString().toUpperCase().substring(4, 8)}'),
+            Text('0x${service.uuid.toString().toUpperCase().substring(4, 8)}'),
       );
     }
   }
@@ -210,12 +164,13 @@ class CharacteristicTile extends StatelessWidget {
   final VoidCallback onWritePressed;
   final VoidCallback onNotificationPressed;
 
-  const CharacteristicTile({Key key,
-    this.characteristic,
-    this.descriptorTiles,
-    this.onReadPressed,
-    this.onWritePressed,
-    this.onNotificationPressed})
+  const CharacteristicTile(
+      {Key key,
+      this.characteristic,
+      this.descriptorTiles,
+      this.onReadPressed,
+      this.onWritePressed,
+      this.onNotificationPressed})
       : super(key: key);
 
   @override
@@ -233,18 +188,9 @@ class CharacteristicTile extends StatelessWidget {
               children: <Widget>[
                 Text('Characteristic'),
                 Text(
-                    '0x${characteristic.uuid.toString().toUpperCase().substring(
-                        4, 8)}',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .body1
-                        .copyWith(
-                        color: Theme
-                            .of(context)
-                            .textTheme
-                            .caption
-                            .color))
+                    '0x${characteristic.uuid.toString().toUpperCase().substring(4, 8)}',
+                    style: Theme.of(context).textTheme.body1.copyWith(
+                        color: Theme.of(context).textTheme.caption.color))
               ],
             ),
             subtitle: Text(value.toString()),
@@ -256,21 +202,13 @@ class CharacteristicTile extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.file_download,
-                  color: Theme
-                      .of(context)
-                      .iconTheme
-                      .color
-                      .withOpacity(0.5),
+                  color: Theme.of(context).iconTheme.color.withOpacity(0.5),
                 ),
                 onPressed: onReadPressed,
               ),
               IconButton(
                 icon: Icon(Icons.file_upload,
-                    color: Theme
-                        .of(context)
-                        .iconTheme
-                        .color
-                        .withOpacity(0.5)),
+                    color: Theme.of(context).iconTheme.color.withOpacity(0.5)),
                 onPressed: onWritePressed,
               ),
               IconButton(
@@ -278,11 +216,7 @@ class CharacteristicTile extends StatelessWidget {
                     characteristic.isNotifying
                         ? Icons.sync_disabled
                         : Icons.sync,
-                    color: Theme
-                        .of(context)
-                        .iconTheme
-                        .color
-                        .withOpacity(0.5)),
+                    color: Theme.of(context).iconTheme.color.withOpacity(0.5)),
                 onPressed: onNotificationPressed,
               )
             ],
@@ -312,15 +246,10 @@ class DescriptorTile extends StatelessWidget {
         children: <Widget>[
           Text('Descriptor'),
           Text('0x${descriptor.uuid.toString().toUpperCase().substring(4, 8)}',
-              style: Theme
-                  .of(context)
+              style: Theme.of(context)
                   .textTheme
                   .body1
-                  .copyWith(color: Theme
-                  .of(context)
-                  .textTheme
-                  .caption
-                  .color))
+                  .copyWith(color: Theme.of(context).textTheme.caption.color))
         ],
       ),
       subtitle: StreamBuilder<List<int>>(
@@ -334,22 +263,14 @@ class DescriptorTile extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.file_download,
-              color: Theme
-                  .of(context)
-                  .iconTheme
-                  .color
-                  .withOpacity(0.5),
+              color: Theme.of(context).iconTheme.color.withOpacity(0.5),
             ),
             onPressed: onReadPressed,
           ),
           IconButton(
             icon: Icon(
               Icons.file_upload,
-              color: Theme
-                  .of(context)
-                  .iconTheme
-                  .color
-                  .withOpacity(0.5),
+              color: Theme.of(context).iconTheme.color.withOpacity(0.5),
             ),
             onPressed: onWritePressed,
           )
@@ -371,18 +292,11 @@ class AdapterStateTile extends StatelessWidget {
       child: ListTile(
         title: Text(
           'Bluetooth adapter is ${state.toString().substring(15)}',
-          style: Theme
-              .of(context)
-              .primaryTextTheme
-              .subhead,
+          style: Theme.of(context).primaryTextTheme.subhead,
         ),
         trailing: Icon(
           Icons.error,
-          color: Theme
-              .of(context)
-              .primaryTextTheme
-              .subhead
-              .color,
+          color: Theme.of(context).primaryTextTheme.subhead.color,
         ),
       ),
     );
