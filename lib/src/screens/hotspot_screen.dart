@@ -62,7 +62,7 @@ class _HotspotScreenState extends State<HotspotScreen> {
     ethernetStatusStreamController.add('');
     hotspotFirmwareStreamController.add('');
     hotspotSerialStreamController.add('');
-
+    /*
     widget.device.state.listen((connectionState) {
       if (connectionState == BluetoothDeviceState.connected) {
         widget.device.discoverServices().then((services) {
@@ -113,6 +113,8 @@ class _HotspotScreenState extends State<HotspotScreen> {
         });
       }
     });
+
+     */
   }
 
   void _findChars(List<BluetoothService> services) {
@@ -171,7 +173,7 @@ class _HotspotScreenState extends State<HotspotScreen> {
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
           StreamBuilder<BluetoothDeviceState>(
-            stream: widget.device.state,
+            stream: (widget.device != null) ? widget.device.state : null,
             initialData: BluetoothDeviceState.connecting,
             builder: (c, snapshot) => ListTile(
                 leading: (snapshot.data == BluetoothDeviceState.connected)
@@ -199,23 +201,33 @@ class _HotspotScreenState extends State<HotspotScreen> {
               builder: (c, snapshot) {
                 return Column(children: <Widget>[
                   ListTile(
-                    title: Text('Wi-Fi Network'),
+                    title: Text('WiFi Network'),
                     subtitle: Text(snapshot.data),
                     trailing: StreamBuilder<bool>(
                         stream: charReadStatusStreamController.stream,
                         initialData: false,
                         builder: (c, snapshot) {
-                          if (snapshot.data == true) {
+                          /// change snapshot.data to true --- To remove
+                          if (snapshot.data == false) {
                             return RaisedButton(
-                              child: Text('CONFIGURE'),
-                              color: Colors.black,
+                              child: Text('Wifi Setup', style: TextStyle(
+                                fontFamily: 'Nexa',
+                                fontWeight: FontWeight.bold
+                              ),),
+                              color: Color(int.parse('0xff0F265A')),
                               textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
                               onPressed: () {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
+                                      /// To remove
+                                  return WifiAvailableScreen();
+                                      /// To remove
                                   return WifiAvailableScreen(
                                       currentWifiSsid: wifiSsidResult,
-                                      device: widget.device,
+                                      device: widget.device ?? null,
                                       wifiServicesChar: wifiServicesChar,
                                       wifiConfiguredServicesChar:
                                           wifiConfiguredServicesChar,
@@ -239,17 +251,6 @@ class _HotspotScreenState extends State<HotspotScreen> {
                 return Column(children: <Widget>[
                   ListTile(
                     title: Text('Ethernet'),
-                    subtitle: Text(snapshot.data),
-                  )
-                ]);
-              }),
-          StreamBuilder<String>(
-              stream: hotspotNameStreamController.stream,
-              initialData: '',
-              builder: (c, snapshot) {
-                return Column(children: <Widget>[
-                  ListTile(
-                    title: Text('Name'),
                     subtitle: Text(snapshot.data),
                   )
                 ]);

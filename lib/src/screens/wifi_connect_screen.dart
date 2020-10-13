@@ -42,6 +42,7 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
     wifiConnectionStatusStreamController.close();
     wifiConnectionSuccessStreamController.close();
 
+    /*
     widget.wifiSsidChar.setNotifyValue(false).then((value) {
       print("WiFi SSID Char Notification Enabled Result: " + value.toString());
 
@@ -50,6 +51,8 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
             value.toString());
       });
     });
+
+     */
   }
 
   @protected
@@ -241,7 +244,7 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Connect to Network"),
+        title: Text("Connect to WiFi Network"),
         actions: <Widget>[],
       ),
       body: Column(children: <Widget>[
@@ -254,8 +257,11 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                   stream: wifiConnectionSuccessStreamController.stream,
                   initialData: false,
                   builder: (c, snapshot) {
+                    /// To remove
+                    return Icon(Icons.check_circle, color: Colors.green,);
+                    /// To remove
                     if (snapshot.data == true) {
-                      return Icon(Icons.check_circle);
+                      return Icon(Icons.check_circle, color: Colors.green,);
                     } else {
                       return Icon(Icons.wifi_lock);
                     }
@@ -291,6 +297,7 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
               controller: passwordController,
               obscureText: _obscureText,
             )),
+        /*
         StreamBuilder<List<int>>(
             stream: widget.wifiSsidChar.value,
             builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
@@ -326,17 +333,24 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
               } else
                 return Container();
             }),
+
+         */
         Container(
             width: double.infinity,
             margin: const EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),
             child: RaisedButton(
                 onPressed: () => _writeWifiCredentials(passwordController.text),
+                color: Color(int.parse('0xff0F265A')),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                ),
                 child: Text(
                   "Connect",
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .button
-                      .copyWith(color: Colors.black),
+                  style: TextStyle(
+                    fontFamily: 'Nexa',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ),
                 ))),
         Container(
             width: double.infinity,
@@ -344,12 +358,17 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
             child: RaisedButton(
                 onPressed: () =>
                     Navigator.of(context).popUntil((route) => route.isFirst),
+                color: Color(int.parse('0xff0F265A')),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))
+                ),
                 child: Text(
                   "Back to Hotspots",
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .button
-                      .copyWith(color: Colors.black),
+                  style: TextStyle(
+                      fontFamily: 'Nexa',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                  ),
                 )))
       ]),
     );

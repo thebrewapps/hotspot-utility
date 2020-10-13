@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:hotspotutility/main.dart';
 import 'package:hotspotutility/src/screens/hotspot_screen.dart';
 import 'package:hotspotutility/src/widgets/bluetooth_device_widgets.dart';
 
@@ -81,121 +82,195 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Find Hotspots'),
+        title: Text('Find CoastFi Hotspot'),
       ),
       body: RefreshIndicator(
         onRefresh: () => FlutterBlue.instance.startScan(
             timeout: Duration(seconds: 3),
             withServices: scanFilterServiceUuids),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              StreamBuilder<bool>(
-                  stream: showTipCardStreamController.stream,
-                  initialData: false,
-                  builder: (c, snapshot) {
-                    if (snapshot.data == true) {
-                      return SizedBox(
-                        child: Card(
-                          color: Colors.white,
-                          margin: EdgeInsets.all(20),
-                          elevation: 5.0,
-                          child: InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            child: Container(
-                              child: Text(
-                                'To scan for hotspots, first press the black button on the left side of your hotspot, wait for the hotspot LED to turn blue, then press the magnifying glass button in the bottom right of the app to scan.',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline
-                                    .copyWith(color: Colors.grey),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  }),
-              StreamBuilder<List<ScanResult>>(
-                stream: FlutterBlue.instance.scanResults,
-                initialData: [],
-                builder: (c, snapshot) => Column(
-                  children: snapshot.data.isEmpty == true && scanned
-                      ? [
-                          Card(
-                            color: Colors.white,
-                            margin: EdgeInsets.all(20),
-                            elevation: 5.0,
-                            child: InkWell(
-                              splashColor: Colors.blue.withAlpha(30),
-                              child: Container(
-                                margin: EdgeInsets.all(20),
-                                child: Text(
-                                  'No Hotspots Found',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline
-                                      .copyWith(color: Colors.grey),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]
-                      : snapshot.data
-                          .map(
-                            (r) => ScanResultTile(
-                              result: r,
-                              onTap: () => Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                r.device.state.listen((connectionState) {
-                                  print("connectionState Hotspots Screen: " +
-                                      connectionState.toString());
-                                  if (connectionState ==
-                                      BluetoothDeviceState.disconnected) {
-                                    r.device.connect();
-                                  }
-                                }, onDone: () {
-                                  print("Connection State Check Complete");
-                                }, onError: (error) {
-                                  print("Connection Error: " + error);
-                                });
-                                return HotspotScreen(device: r.device);
-                              })),
-                            ),
-                          )
-                          .toList(),
-                ),
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            mainWidget(),
+            Expanded(child: Container()),
+            findButtonWidget()
+          ],
         ),
       ),
-      floatingActionButton: StreamBuilder<bool>(
-        stream: FlutterBlue.instance.isScanning,
-        initialData: false,
-        builder: (c, snapshot) {
-          if (snapshot.data) {
-            return FloatingActionButton(
-              child: Icon(Icons.stop),
-              onPressed: () => FlutterBlue.instance.stopScan(),
-              backgroundColor: Colors.red,
-            );
-          } else {
-            return FloatingActionButton(
-                child: Icon(Icons.search),
+//      floatingActionButton: StreamBuilder<bool>(
+//        stream: FlutterBlue.instance.isScanning,
+//        initialData: false,
+//        builder: (c, snapshot) {
+//          if (snapshot.data) {
+//            return FloatingActionButton(
+//              child: Icon(Icons.stop),
+//              onPressed: () => FlutterBlue.instance.stopScan(),
+//              backgroundColor: Colors.red,
+//            );
+//          } else {
+//            return FloatingActionButton(
+//                child: Icon(Icons.search),
+//                onPressed: () {
+//                  showTipCardStreamController.add(false);
+//                  scanned = true;
+//                  FlutterBlue.instance.startScan(
+//                      timeout: Duration(seconds: 3),
+//                      withServices: scanFilterServiceUuids);
+//                });
+//          }
+//        },
+//      ),
+    );
+  }
+
+  Widget mainWidget() {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          StreamBuilder<bool>(
+              stream: showTipCardStreamController.stream,
+              initialData: false,
+              builder: (c, snapshot) {
+                if (snapshot.data == true) {
+                  return SizedBox(
+                    child: Card(
+                      color: Colors.white,
+                      margin: EdgeInsets.all(20),
+                      elevation: 5.0,
+                      child: InkWell(
+                        splashColor: Colors.blue.withAlpha(30),
+                        child: Container(
+                          child: Text(
+                            '1. Press the black button on the left side of the CoastFi Hotspot\n2. Wait for the light on the top of the hotspot to turn blue.\n3. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline
+                                .copyWith(color: Colors.grey),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+          StreamBuilder<List<ScanResult>>(
+            stream: FlutterBlue.instance.scanResults,
+            initialData: [],
+            builder: (c, snapshot) => Column(
+              children: snapshot.data.isEmpty == true && scanned
+                  ? [
+                      Container(
+                        height: MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).padding.top -
+                            MediaQuery.of(context).padding.bottom -
+                            100.0 -
+                            150.0,
+                        child: ListView(
+                          children: [
+                            /// To remove
+                            ScanResultTile(
+                                onTap: () => Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) => HotspotScreen()))
+                            ),
+                            /// To remove
+                            Card(
+                              color: Colors.white,
+                              margin: EdgeInsets.all(20),
+                              elevation: 5.0,
+                              child: InkWell(
+                                splashColor: Colors.blue.withAlpha(30),
+                                child: Container(
+                                  margin: EdgeInsets.all(20),
+                                  child: Text(
+                                    "No Hotspot Found\n1. Press the black button on the left side of the CoastFi Hotspot\n2. Wait for the light on the top of the hotspot to turn blue.\n3. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\nIf the light on the top of the hotspot does not turn blue, or you have re-attempted the steps above and still cannot find the hotspot - reset the CoastFi Hotspot by removing the power supply, waiting 15 seconds and then re-inserting the power supply. Wait 60 seconds until the light on the top of the CoastFi Hotspot becomes a steady ‘yellow’ or ‘green color’. Then try again.\n\nStill not able to pair with the CoastFi Hotspot? Send an email to help@coastfi.com or call 888-COAST81",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline
+                                        .copyWith(color: Colors.grey),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ]
+                  : snapshot.data
+                      .map(
+                        (r) => ScanResultTile(
+                          result: r,
+                          onTap: () => Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            r.device.state.listen((connectionState) {
+                              print("connectionState Hotspots Screen: " +
+                                  connectionState.toString());
+                              if (connectionState ==
+                                  BluetoothDeviceState.disconnected) {
+                                r.device.connect();
+                              }
+                            }, onDone: () {
+                              print("Connection State Check Complete");
+                            }, onError: (error) {
+                              print("Connection Error: " + error);
+                            });
+                            return HotspotScreen(device: r.device);
+                          })),
+                        ),
+                      )
+                      .toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget findButtonWidget() {
+    return Container(
+      height: 100.0,
+      child: Center(
+        child: StreamBuilder<bool>(
+          stream: FlutterBlue.instance.isScanning,
+          initialData: false,
+          builder: (c, snapshot) {
+            if (snapshot.data) {
+              return FloatingActionButton(
+                child: Icon(Icons.stop),
+                onPressed: () => FlutterBlue.instance.stopScan(),
+                backgroundColor: Colors.red,
+              );
+            } else {
+              return RaisedButton(
+                color: Color(int.parse('0xff0F265A')),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    "Find hotspot",
+                    style: TextStyle(
+                        fontFamily: 'Nexa',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
+                  ),
+                ),
                 onPressed: () {
                   showTipCardStreamController.add(false);
                   scanned = true;
                   FlutterBlue.instance.startScan(
                       timeout: Duration(seconds: 3),
                       withServices: scanFilterServiceUuids);
-                });
-          }
-        },
+                },
+              );
+            }
+          },
+        ),
       ),
     );
   }

@@ -44,6 +44,7 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
     super.initState();
     wifiSsidListStreamController.add([]);
 
+    /*
     widget.wifiConfiguredServicesChar.read().then((value) {
       configuredSsidResults =
           protos.wifi_services_v1.fromBuffer(value).services.toList();
@@ -58,59 +59,97 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
     }).catchError((e) {
       print("Error: wifiConfiguredServices Failure: ${e.toString()}");
     });
+
+     */
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Available Wi-Fi Networks"),
+          title: Text("Available WiFi Networks"),
           actions: <Widget>[],
         ),
-        body: SingleChildScrollView(
-            child: StreamBuilder<List<String>>(
-                stream: wifiSsidListStreamController.stream,
-                initialData: [],
-                builder: (c, snapshot) {
-                  return ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          title: Text(snapshot.data[index].toString()),
-                          leading: snapshot.data[index].toString() ==
-                                  widget.currentWifiSsid
-                              ? Icon(
-                                  Icons.check_circle,
-                                  color: Colors.grey,
-                                  size: 24.0,
-                                  semanticLabel: 'Connected to Network',
-                                )
-                              : Icon(
-                                  Icons.wifi_lock,
-                                  color: Colors.grey,
-                                  size: 24.0,
-                                  semanticLabel: 'Available Network',
-                                ),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return WifiConnectScreen(
-                                  currentWifiSsid: widget.currentWifiSsid,
-                                  device: widget.device,
-                                  wifiNetworkSelected:
-                                      snapshot.data[index].toString(),
-                                  wifiSsidChar: widget.wifiSsidChar,
-                                  wifiConfiguredServices: configuredSsidResults,
-                                  wifiConnectChar: widget.wifiConnectChar,
-                                  wifiRemoveChar: widget.wifiRemoveChar);
-                            }));
-                          });
-                    },
-                  );
-                })));
+        /// To remove
+        body: item()
+        /// To remove
+//        body: mainWidget()
+        );
+  }
+
+  Widget mainWidget() {
+    return SingleChildScrollView(
+        child: StreamBuilder<List<String>>(
+            stream: wifiSsidListStreamController.stream,
+            initialData: [],
+            builder: (c, snapshot) {
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      title: Text(snapshot.data[index].toString()),
+                      leading: snapshot.data[index].toString() ==
+                          widget.currentWifiSsid
+                          ? Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 24.0,
+                        semanticLabel: 'Connected to Network',
+                      )
+                          : Icon(
+                        Icons.wifi_lock,
+                        color: Colors.grey,
+                        size: 24.0,
+                        semanticLabel: 'Available Network',
+                      ),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return WifiConnectScreen(
+                              currentWifiSsid: widget.currentWifiSsid,
+                              device: widget.device,
+                              wifiNetworkSelected:
+                              snapshot.data[index].toString(),
+                              wifiSsidChar: widget.wifiSsidChar,
+                              wifiConfiguredServices: configuredSsidResults,
+                              wifiConnectChar: widget.wifiConnectChar,
+                              wifiRemoveChar: widget.wifiRemoveChar);
+                        }));
+                      });
+                },
+              );
+            }));
+  }
+
+  /// To remove
+  Widget item() {
+    return ListTile(
+        title: Text('Test'),
+        leading: Icon(
+          Icons.check_circle,
+          color: Colors.green,
+          size: 24.0,
+          semanticLabel: 'Connected to Network',
+        ),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) {
+            return WifiConnectScreen(
+                currentWifiSsid: widget.currentWifiSsid,
+                device: widget.device,
+                wifiNetworkSelected:
+                'snapshot.data[index].toString()',
+                wifiSsidChar: widget.wifiSsidChar,
+                wifiConfiguredServices: configuredSsidResults,
+                wifiConnectChar: widget.wifiConnectChar,
+                wifiRemoveChar: widget.wifiRemoveChar);
+          }));
+        }
+        );
   }
 }

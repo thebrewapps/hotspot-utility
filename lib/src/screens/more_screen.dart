@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotspotutility/src/screens/software_license_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -12,11 +13,11 @@ class MoreScreen extends StatelessWidget {
         ),
         body: ListView(
           children: ListTile.divideTiles(context: context, tiles: [
-            ListTile(title: Text('Version'), trailing: Text("0.1.2")),
+            ListTile(title: Text('Version'), trailing: Text("0.1.0")),
             ListTile(
-              title: Text('Source Code - Git Hub'),
+              title: Text('Software License'),
               onTap: () {
-                launch('https://github.com/kent-williams/hotspot-utility');
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SoftwareLicenseScreen()));
               },
             ),
           ]).toList(),
