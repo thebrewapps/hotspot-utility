@@ -110,7 +110,7 @@ class ScanResultTile extends StatelessWidget {
       ),
       children: <Widget>[
         _buildAdvRow(
-            context, 'Complete Local Name', result.advertisementData.localName),
+            context, 'Complete Local Name', result.advertisementData.localName.replaceAll('Helium', 'CoastFi')),
         _buildAdvRow(
             context,
             'Service UUIDs',
