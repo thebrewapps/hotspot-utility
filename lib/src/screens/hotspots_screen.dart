@@ -170,12 +170,6 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                             150.0,
                         child: ListView(
                           children: [
-                            /// To remove
-                            ScanResultTile(
-                                onTap: () => Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) => HotspotScreen()))
-                            ),
-                            /// To remove
                             Card(
                               color: Colors.white,
                               margin: EdgeInsets.all(20),

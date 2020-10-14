@@ -62,7 +62,6 @@ class _HotspotScreenState extends State<HotspotScreen> {
     ethernetStatusStreamController.add('');
     hotspotFirmwareStreamController.add('');
     hotspotSerialStreamController.add('');
-    /*
     widget.device.state.listen((connectionState) {
       if (connectionState == BluetoothDeviceState.connected) {
         widget.device.discoverServices().then((services) {
@@ -114,7 +113,6 @@ class _HotspotScreenState extends State<HotspotScreen> {
       }
     });
 
-     */
   }
 
   void _findChars(List<BluetoothService> services) {
@@ -207,8 +205,7 @@ class _HotspotScreenState extends State<HotspotScreen> {
                         stream: charReadStatusStreamController.stream,
                         initialData: false,
                         builder: (c, snapshot) {
-                          /// change snapshot.data to true --- To remove
-                          if (snapshot.data == false) {
+                          if (snapshot.data == true) {
                             return RaisedButton(
                               child: Text('Wifi Setup', style: TextStyle(
                                 fontFamily: 'Nexa',
@@ -222,9 +219,6 @@ class _HotspotScreenState extends State<HotspotScreen> {
                               onPressed: () {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
-                                      /// To remove
-                                  return WifiAvailableScreen();
-                                      /// To remove
                                   return WifiAvailableScreen(
                                       currentWifiSsid: wifiSsidResult,
                                       device: widget.device ?? null,

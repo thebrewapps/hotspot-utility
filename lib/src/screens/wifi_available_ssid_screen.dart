@@ -44,7 +44,6 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
     super.initState();
     wifiSsidListStreamController.add([]);
 
-    /*
     widget.wifiConfiguredServicesChar.read().then((value) {
       configuredSsidResults =
           protos.wifi_services_v1.fromBuffer(value).services.toList();
@@ -60,7 +59,6 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
       print("Error: wifiConfiguredServices Failure: ${e.toString()}");
     });
 
-     */
   }
 
   @override
@@ -70,10 +68,7 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
           title: Text("Available WiFi Networks"),
           actions: <Widget>[],
         ),
-        /// To remove
-        body: item()
-        /// To remove
-//        body: mainWidget()
+        body: mainWidget()
         );
   }
 
@@ -123,33 +118,5 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
                 },
               );
             }));
-  }
-
-  /// To remove
-  Widget item() {
-    return ListTile(
-        title: Text('Test'),
-        leading: Icon(
-          Icons.check_circle,
-          color: Colors.green,
-          size: 24.0,
-          semanticLabel: 'Connected to Network',
-        ),
-        trailing: Icon(Icons.keyboard_arrow_right),
-        onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) {
-            return WifiConnectScreen(
-                currentWifiSsid: widget.currentWifiSsid,
-                device: widget.device,
-                wifiNetworkSelected:
-                'snapshot.data[index].toString()',
-                wifiSsidChar: widget.wifiSsidChar,
-                wifiConfiguredServices: configuredSsidResults,
-                wifiConnectChar: widget.wifiConnectChar,
-                wifiRemoveChar: widget.wifiRemoveChar);
-          }));
-        }
-        );
   }
 }
