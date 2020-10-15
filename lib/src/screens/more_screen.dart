@@ -9,7 +9,11 @@ class MoreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: <Widget>[],
+          title: Text('More', style: TextStyle(
+              fontFamily: 'Nexa',
+              fontWeight: FontWeight.bold,
+              fontSize: 24.0
+          ),),
         ),
         body: ListView(
           children: ListTile.divideTiles(context: context, tiles: [

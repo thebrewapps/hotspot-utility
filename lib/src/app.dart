@@ -9,8 +9,18 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Hotspot Utility',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
+          primaryColor: MaterialColor(0xff0F265A, {
+        50: Color(0xff0F265A),
+        100: Color(0xff0F265A),
+        200: Color(0xff0F265A),
+        300: Color(0xff0F265A),
+        400: Color(0xff0F265A),
+        500: Color(0xff0F265A),
+        600: Color(0xff0F265A),
+        700: Color(0xff0F265A),
+        800: Color(0xff0F265A),
+        900: Color(0xff0F265A),
+      })),
       home: ParentWidget(),
     );
   }
@@ -44,7 +54,8 @@ class _ParentWidgetState extends State<ParentWidget> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.bluetooth),
+            icon: Icon(
+              Icons.bluetooth),
             title: Text('Hotspots'),
           ),
           BottomNavigationBarItem(
@@ -53,7 +64,7 @@ class _ParentWidgetState extends State<ParentWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Color(int.parse('0xff0F265A')),
         onTap: _onItemTapped,
       ),
     );

@@ -242,7 +242,11 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Connect to WiFi Network"),
+        title: Text("Connect to WiFi Network", style: TextStyle(
+            fontFamily: 'Nexa',
+            fontWeight: FontWeight.bold,
+            fontSize: 24.0
+        )),
         actions: <Widget>[],
       ),
       body: Column(children: <Widget>[

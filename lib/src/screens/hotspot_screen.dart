@@ -165,7 +165,11 @@ class _HotspotScreenState extends State<HotspotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hotspot Settings'),
+        title: Text('Hotspot Settings', style: TextStyle(
+            fontFamily: 'Nexa',
+            fontWeight: FontWeight.bold,
+            fontSize: 24.0
+        )),
         actions: <Widget>[],
       ),
       body: SingleChildScrollView(

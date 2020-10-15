@@ -65,7 +65,11 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Available WiFi Networks"),
+          title: Text("Available WiFi Networks", style: TextStyle(
+              fontFamily: 'Nexa',
+              fontWeight: FontWeight.bold,
+              fontSize: 24.0
+          )),
           actions: <Widget>[],
         ),
         body: mainWidget()

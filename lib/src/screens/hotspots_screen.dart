@@ -82,7 +82,11 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Find CoastFi Hotspot'),
+        title: Text('Find CoastFi Hotspot', style: TextStyle(
+          fontFamily: 'Nexa',
+          fontWeight: FontWeight.bold,
+          fontSize: 24.0
+        ),),
       ),
       body: RefreshIndicator(
         onRefresh: () => FlutterBlue.instance.startScan(
@@ -119,13 +123,14 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         child: Container(
+                          padding: EdgeInsets.all(16.0),
                           child: Text(
-                            '1. Press the black button on the left side of the CoastFi Hotspot\n2. Wait for the light on the top of the hotspot to turn blue.\n3. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline
-                                .copyWith(color: Colors.grey),
-                            textAlign: TextAlign.center,
+                            '1. Press the black button on the left side of the CoastFi Hotspot\n\n2. Wait for the light on the top of the hotspot to turn blue.\n\n3. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot',
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 20.0),
+                            textAlign: TextAlign.left,
                           ),
                         ),
                       ),
@@ -139,84 +144,77 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
             stream: FlutterBlue.instance.scanResults,
             initialData: [],
             builder: (c, snapshot) => Column(
-              children: snapshot.data.isEmpty == true && scanned
-                  ? [
-                Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height -
-                      MediaQuery
-                          .of(context)
-                          .padding
-                          .top -
-                      MediaQuery
-                          .of(context)
-                          .padding
-                          .bottom -
-                      140.0,
-                  child: ListView(
-                    children: [
-                      Card(
-                        color: Colors.white,
-                        margin: EdgeInsets.all(20),
-                        elevation: 5.0,
-                        child: InkWell(
-                          splashColor: Colors.blue.withAlpha(30),
-                          child: Container(
-                            padding: EdgeInsets.all(20.0),
-                            child: Text(
-                              "No Hotspot Found\n1. Press the black button on the left side of the CoastFi Hotspot\n2. Wait for the light on the top of the hotspot to turn blue.\n3. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\nIf the light on the top of the hotspot does not turn blue, or you have re-attempted the steps above and still cannot find the hotspot - reset the CoastFi Hotspot by removing the power supply, waiting 15 seconds and then re-inserting the power supply. Wait 60 seconds until the light on the top of the CoastFi Hotspot becomes a steady ‘yellow’ or ‘green color’. Then try again.\n\nStill not able to pair with the CoastFi Hotspot? Send an email to help@coastfi.com or call 888-COAST81",
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .headline
-                                  .copyWith(color: Colors.grey),
-                              textAlign: TextAlign.left,
-                            ),
+                children: snapshot.data.isEmpty == true && scanned
+                    ? [
+                        Container(
+                          height: MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              MediaQuery.of(context).padding.bottom -
+                              140.0,
+                          child: ListView(
+                            children: [
+                              Card(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(20),
+                                elevation: 5.0,
+                                child: InkWell(
+                                  splashColor: Colors.blue.withAlpha(30),
+                                  child: Container(
+                                    padding: EdgeInsets.all(20.0),
+                                    child: Text(
+                                      "No Hotspot Found\n1. Press the black button on the left side of the CoastFi Hotspot\n2. Wait for the light on the top of the hotspot to turn blue.\n3. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\nIf the light on the top of the hotspot does not turn blue, or you have re-attempted the steps above and still cannot find the hotspot - reset the CoastFi Hotspot by removing the power supply, waiting 15 seconds and then re-inserting the power supply. Wait 60 seconds until the light on the top of the CoastFi Hotspot becomes a steady ‘yellow’ or ‘green color’. Then try again.\n\nStill not able to pair with the CoastFi Hotspot? Send an email to help@coastfi.com or call 888-COAST81",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20.0,
+                                          color: Colors.black87),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 60.0,
+                              )
+                            ],
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 60.0,)
-                    ],
-                  ),
-                )
-              ]
-                  : [
-                      Container(
-                        height: MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).padding.top -
-                            MediaQuery.of(context).padding.bottom -
-                            140.0,
-                        padding: EdgeInsets.only(bottom: 60.0),
-                        child: ListView(
-                          children: snapshot.data
-                              .map(
-                                (r) => ScanResultTile(
-                              result: r,
-                              onTap: () => Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                r.device.state.listen((connectionState) {
-                                  print("connectionState Hotspots Screen: " +
-                                      connectionState.toString());
-                                  if (connectionState ==
-                                      BluetoothDeviceState.disconnected) {
-                                    r.device.connect();
-                                  }
-                                }, onDone: () {
-                                  print("Connection State Check Complete");
-                                }, onError: (error) {
-                                  print("Connection Error: " + error);
-                                });
-                                return HotspotScreen(device: r.device);
-                              })),
-                            ),
-                          )
-                              .toList(),
-                        ),
-                      )
-                    ]
-            ),
+                        )
+                      ]
+                    : [
+                        Container(
+                          height: MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              MediaQuery.of(context).padding.bottom -
+                              140.0,
+                          padding: EdgeInsets.only(bottom: 60.0),
+                          child: ListView(
+                            children: snapshot.data
+                                .map(
+                                  (r) => ScanResultTile(
+                                    result: r,
+                                    onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) {
+                                      r.device.state.listen((connectionState) {
+                                        print(
+                                            "connectionState Hotspots Screen: " +
+                                                connectionState.toString());
+                                        if (connectionState ==
+                                            BluetoothDeviceState.disconnected) {
+                                          r.device.connect();
+                                        }
+                                      }, onDone: () {
+                                        print(
+                                            "Connection State Check Complete");
+                                      }, onError: (error) {
+                                        print("Connection Error: " + error);
+                                      });
+                                      return HotspotScreen(device: r.device);
+                                    })),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        )
+                      ]),
           ),
         ],
       ),
