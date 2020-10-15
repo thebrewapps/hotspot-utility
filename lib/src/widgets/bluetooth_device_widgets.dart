@@ -16,6 +16,10 @@ class ScanResultTile extends StatelessWidget {
         children: <Widget>[
           Text(
             result.advertisementData.localName.replaceAll('Helium', 'CoastFi'),
+            style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.black87
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         ],

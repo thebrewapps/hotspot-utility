@@ -182,8 +182,8 @@ class _HotspotScreenState extends State<HotspotScreen> {
                     ? Icon(Icons.bluetooth_connected)
                     : Icon(Icons.bluetooth_disabled),
                 title: (snapshot.data == BluetoothDeviceState.connected)
-                    ? Text('Connected to Hotspot Bluetooth')
-                    : Text('Disconnected from Hotspot Bluetooth'),
+                    ? Text('Connected to Hotspot Bluetooth', style: TextStyle(fontWeight: FontWeight.bold),)
+                    : Text('Disconnected from Hotspot Bluetooth', style: TextStyle(fontWeight: FontWeight.bold),),
                 trailing: StreamBuilder<bool>(
                     stream: charReadStatusStreamController.stream,
                     initialData: false,

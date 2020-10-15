@@ -222,6 +222,22 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
   }
 
   Widget findButtonWidget() {
+//    return ScanResultTile(
+//      result: ScanResult(
+//        device: BluetoothDevice(
+//          id: DeviceIdentifier("test"),
+//          name: "Coast",
+//          type: BluetoothDeviceType.classic
+//        ),
+//        rssi: 123,
+//        advertisementData: AdvertisementData(
+//          localName: 'CoastFi Hotspot 6476',
+//          connectable: true,
+//          txPowerLevel: 123,
+//          serviceUuids: ["123","345","123","345","123","345","123","345","123","345","123","345","123","345"]
+//        )
+//      ),
+//    );
     return Container(
       height: 100.0,
       color: Colors.transparent,
