@@ -62,56 +62,56 @@ class _HotspotScreenState extends State<HotspotScreen> {
     ethernetStatusStreamController.add('');
     hotspotFirmwareStreamController.add('');
     hotspotSerialStreamController.add('');
-    widget.device.state.listen((connectionState) {
-      if (connectionState == BluetoothDeviceState.connected) {
-        widget.device.discoverServices().then((services) {
-          _findChars(services);
-          // public key
-          publicKeyChar.read().then((value) {
-            publicKeyResult = new String.fromCharCodes(value);
-            // hotspot info http
-            http
-                .get("https://api.helium.io/v1/hotspots/" + publicKeyResult)
-                .then((value) {
-              var parsed = json.decode(value.body);
-              hotspotNameStreamController.add(parsed['data']['name']);
-            }).catchError((e) {
-              print("Helium API Error");
-            });
-            // current wifi ssid
-            wifiSsidChar.read().then((value) {
-              wifiSsidResult = new String.fromCharCodes(value);
-              // add result to stream
-              wifiSsidStreamController.add(wifiSsidResult);
-              // ethernet status
-              ethernetOnlineChar.read().then((value) {
-                var ethernetStatusResult = new String.fromCharCodes(value);
-                // add result to stream
-                if (ethernetStatusResult == 'true') {
-                  ethernetStatusStreamController.add('Connected');
-                } else {
-                  ethernetStatusStreamController.add('Disconnected');
-                }
-                // hotspot firmware version
-                hotspotFirmwareChar.read().then((value) {
-                  // add result to stream
-                  hotspotFirmwareStreamController
-                      .add(new String.fromCharCodes(value));
-                  // hotspot serial number
-                  hotspotSerialChar.read().then((value) {
-                    // indicate last char read is done
-                    charReadStatusStreamController.add(true);
-                    // add result to stream
-                    hotspotSerialStreamController
-                        .add(new String.fromCharCodes(value));
-                  });
-                });
-              });
-            });
-          });
-        });
-      }
-    });
+//    widget.device.state.listen((connectionState) {
+//      if (connectionState == BluetoothDeviceState.connected) {
+//        widget.device.discoverServices().then((services) {
+//          _findChars(services);
+//          // public key
+//          publicKeyChar.read().then((value) {
+//            publicKeyResult = new String.fromCharCodes(value);
+//            // hotspot info http
+//            http
+//                .get("https://api.helium.io/v1/hotspots/" + publicKeyResult)
+//                .then((value) {
+//              var parsed = json.decode(value.body);
+//              hotspotNameStreamController.add(parsed['data']['name']);
+//            }).catchError((e) {
+//              print("Helium API Error");
+//            });
+//            // current wifi ssid
+//            wifiSsidChar.read().then((value) {
+//              wifiSsidResult = new String.fromCharCodes(value);
+//              // add result to stream
+//              wifiSsidStreamController.add(wifiSsidResult);
+//              // ethernet status
+//              ethernetOnlineChar.read().then((value) {
+//                var ethernetStatusResult = new String.fromCharCodes(value);
+//                // add result to stream
+//                if (ethernetStatusResult == 'true') {
+//                  ethernetStatusStreamController.add('Connected');
+//                } else {
+//                  ethernetStatusStreamController.add('Disconnected');
+//                }
+//                // hotspot firmware version
+//                hotspotFirmwareChar.read().then((value) {
+//                  // add result to stream
+//                  hotspotFirmwareStreamController
+//                      .add(new String.fromCharCodes(value));
+//                  // hotspot serial number
+//                  hotspotSerialChar.read().then((value) {
+//                    // indicate last char read is done
+//                    charReadStatusStreamController.add(true);
+//                    // add result to stream
+//                    hotspotSerialStreamController
+//                        .add(new String.fromCharCodes(value));
+//                  });
+//                });
+//              });
+//            });
+//          });
+//        });
+//      }
+//    });
 
   }
 
@@ -178,11 +178,14 @@ class _HotspotScreenState extends State<HotspotScreen> {
             stream: (widget.device != null) ? widget.device.state : null,
             initialData: BluetoothDeviceState.connecting,
             builder: (c, snapshot) => ListTile(
-                leading: (snapshot.data == BluetoothDeviceState.connected)
-                    ? Icon(Icons.bluetooth_connected)
-                    : Icon(Icons.bluetooth_disabled),
-                title: (snapshot.data == BluetoothDeviceState.connected)
-                    ? Text('Connected to Hotspot Bluetooth', style: TextStyle(fontWeight: FontWeight.bold),)
+                leading: Image(
+                  image: AssetImage('assets/images/information-button.png'),
+                  width: 25.0,
+                  height: 25.0,
+                ),
+                /// To remove => ==
+                title: (snapshot.data != BluetoothDeviceState.connected)
+                    ? Text("Ready for WiFi Setup. Click 'WiFi Setup' below", style: TextStyle(fontWeight: FontWeight.bold),)
                     : Text('Disconnected from Hotspot Bluetooth', style: TextStyle(fontWeight: FontWeight.bold),),
                 trailing: StreamBuilder<bool>(
                     stream: charReadStatusStreamController.stream,
@@ -209,7 +212,8 @@ class _HotspotScreenState extends State<HotspotScreen> {
                         stream: charReadStatusStreamController.stream,
                         initialData: false,
                         builder: (c, snapshot) {
-                          if (snapshot.data == true) {
+                          /// To remove => true
+                          if (snapshot.data == false) {
                             return RaisedButton(
                               child: Text('Wifi Setup', style: TextStyle(
                                 fontFamily: 'Nexa',
@@ -223,6 +227,8 @@ class _HotspotScreenState extends State<HotspotScreen> {
                               onPressed: () {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
+                                      /// To remove
+                                      return WifiAvailableScreen();
                                   return WifiAvailableScreen(
                                       currentWifiSsid: wifiSsidResult,
                                       device: widget.device ?? null,
