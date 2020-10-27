@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:hotspotutility/src/screens/wifi_connect_screen.dart';
 
 class ScanResultTile extends StatelessWidget {
   const ScanResultTile({Key key, this.result, this.onTap}) : super(key: key);
@@ -14,13 +15,13 @@ class ScanResultTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            result.advertisementData.localName.replaceAll('Helium', 'CoastFi'),
-            style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.black87
+          Container(
+            child: Text(
+              result.advertisementData.localName
+                  .replaceAll('Helium', 'CoastFi'),
+              style: TextStyle(fontSize: 18.0, color: Colors.black87),
+              overflow: TextOverflow.ellipsis,
             ),
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       );
@@ -95,26 +96,28 @@ class ScanResultTile extends StatelessWidget {
           return Icon(MaterialCommunityIcons.signal_cellular_3);
         }
       }()),
-      trailing: Container(
-        decoration: BoxDecoration(
+      trailing: FlatButton(
+        highlightColor: Color(int.parse('0xff23abf7')),
+        color: Color(int.parse('0xff0F265A')),
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
-          color: Color(int.parse('0xff0F265A')),
         ),
-        child: FlatButton(
-          child: Text(
-            "Connect",
-            style: TextStyle(
-                fontFamily: 'Nexa',
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 16.0),
-          ),
-          onPressed: (result.advertisementData.connectable) ? onTap : null,
+        child: Text(
+          "Connect",
+          style: TextStyle(
+              fontFamily: 'Nexa',
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontSize: 16.0),
         ),
+        onPressed: (result.advertisementData.connectable) ? onTap : null,
+//      onPressed: () {
+//        Navigator.push(context, MaterialPageRoute(builder: (context) => WifiConnectScreen()));
+//      },
       ),
       children: <Widget>[
-        _buildAdvRow(
-            context, 'Complete Local Name', result.advertisementData.localName.replaceAll('Helium', 'CoastFi')),
+        _buildAdvRow(context, 'Complete Local Name',
+            result.advertisementData.localName.replaceAll('Helium', 'CoastFi')),
         _buildAdvRow(
             context,
             'Service UUIDs',

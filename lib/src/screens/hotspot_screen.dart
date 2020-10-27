@@ -112,7 +112,6 @@ class _HotspotScreenState extends State<HotspotScreen> {
 //        });
 //      }
 //    });
-
   }
 
   void _findChars(List<BluetoothService> services) {
@@ -165,11 +164,11 @@ class _HotspotScreenState extends State<HotspotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hotspot Settings', style: TextStyle(
-            fontFamily: 'Nexa',
-            fontWeight: FontWeight.bold,
-            fontSize: 24.0
-        )),
+        title: Text('Hotspot Settings',
+            style: TextStyle(
+                fontFamily: 'Nexa',
+                fontWeight: FontWeight.bold,
+                fontSize: 24.0)),
         actions: <Widget>[],
       ),
       body: SingleChildScrollView(
@@ -178,15 +177,35 @@ class _HotspotScreenState extends State<HotspotScreen> {
             stream: (widget.device != null) ? widget.device.state : null,
             initialData: BluetoothDeviceState.connecting,
             builder: (c, snapshot) => ListTile(
-                leading: Image(
-                  image: AssetImage('assets/images/information-button.png'),
-                  width: 25.0,
-                  height: 25.0,
+                title: Row(
+                  children: [
+                    Image(
+                      image: AssetImage('assets/images/information-button.png'),
+                      width: 20.0,
+                      height: 20.0,
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    Expanded(
+                      child: (snapshot.data == BluetoothDeviceState.connected)
+                          ? Text(
+                              "Ready for WiFi Setup. Click ‘WiFi Setup’ when it loads in the app below",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                  color: Colors.black87),
+                            )
+                          : Text(
+                              'Disconnected from Hotspot Bluetooth',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                  color: Colors.black87),
+                            ),
+                    ),
+                  ],
                 ),
-                /// To remove => ==
-                title: (snapshot.data != BluetoothDeviceState.connected)
-                    ? Text("Ready for WiFi Setup. Click 'WiFi Setup' below", style: TextStyle(fontWeight: FontWeight.bold),)
-                    : Text('Disconnected from Hotspot Bluetooth', style: TextStyle(fontWeight: FontWeight.bold),),
                 trailing: StreamBuilder<bool>(
                     stream: charReadStatusStreamController.stream,
                     initialData: false,
@@ -212,13 +231,15 @@ class _HotspotScreenState extends State<HotspotScreen> {
                         stream: charReadStatusStreamController.stream,
                         initialData: false,
                         builder: (c, snapshot) {
-                          /// To remove => true
-                          if (snapshot.data == false) {
-                            return RaisedButton(
-                              child: Text('Wifi Setup', style: TextStyle(
-                                fontFamily: 'Nexa',
-                                fontWeight: FontWeight.bold
-                              ),),
+                          if (snapshot.data == true) {
+                            return FlatButton(
+                              child: Text(
+                                'Wifi Setup',
+                                style: TextStyle(
+                                    fontFamily: 'Nexa',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              highlightColor: Color(int.parse('0xff23abf7')),
                               color: Color(int.parse('0xff0F265A')),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -227,8 +248,6 @@ class _HotspotScreenState extends State<HotspotScreen> {
                               onPressed: () {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
-                                      /// To remove
-                                      return WifiAvailableScreen();
                                   return WifiAvailableScreen(
                                       currentWifiSsid: wifiSsidResult,
                                       device: widget.device ?? null,

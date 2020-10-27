@@ -2,16 +2,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:hotspotutility/gen/hotspotutility.pb.dart' as protos;
+import 'package:flutter/cupertino.dart';
+import 'dart:io' show Platform;
 
 class WifiConnectScreen extends StatefulWidget {
-  const WifiConnectScreen({Key key,
-    this.currentWifiSsid,
-    this.device,
-    this.wifiNetworkSelected,
-    this.wifiSsidChar,
-    this.wifiConfiguredServices,
-    this.wifiConnectChar,
-    this.wifiRemoveChar})
+  const WifiConnectScreen(
+      {Key key,
+      this.currentWifiSsid,
+      this.device,
+      this.wifiNetworkSelected,
+      this.wifiSsidChar,
+      this.wifiConfiguredServices,
+      this.wifiConnectChar,
+      this.wifiRemoveChar})
       : super(key: key);
   final String currentWifiSsid;
   final BluetoothDevice device;
@@ -31,9 +34,9 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
   // Initially password is obscure
   bool _obscureText = true;
   StreamController<String> wifiConnectionStatusStreamController =
-  StreamController<String>.broadcast();
+      StreamController<String>.broadcast();
   StreamController<bool> wifiConnectionSuccessStreamController =
-  StreamController<bool>.broadcast();
+      StreamController<bool>.broadcast();
   bool _seenConnecting = false;
 
   @override
@@ -148,18 +151,18 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                 StreamSubscription<String> subscription;
                 subscription =
                     wifiConnectionStatusStreamController.stream.listen((value) {
-                      if (value == "Failed") {
-                        subscription.cancel();
-                        // Remove WiFi Network After Failure
-                        var wifiSsidRemove = protos.wifi_remove_v1.create();
-                        wifiSsidRemove.service = widget.wifiNetworkSelected;
-                        print("network to remove after failure 2: " +
-                            wifiSsidRemove.service.toString());
-                        widget.wifiRemoveChar
-                            .write(wifiSsidRemove.writeToBuffer())
-                            .then((value) {});
-                      }
-                    });
+                  if (value == "Failed") {
+                    subscription.cancel();
+                    // Remove WiFi Network After Failure
+                    var wifiSsidRemove = protos.wifi_remove_v1.create();
+                    wifiSsidRemove.service = widget.wifiNetworkSelected;
+                    print("network to remove after failure 2: " +
+                        wifiSsidRemove.service.toString());
+                    widget.wifiRemoveChar
+                        .write(wifiSsidRemove.writeToBuffer())
+                        .then((value) {});
+                  }
+                });
               });
             }
           });
@@ -192,18 +195,18 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                 StreamSubscription<String> subscription;
                 subscription =
                     wifiConnectionStatusStreamController.stream.listen((value) {
-                      if (value == "Failed") {
-                        subscription.cancel();
-                        // Remove WiFi Network After Failure
-                        var wifiSsidRemove = protos.wifi_remove_v1.create();
-                        wifiSsidRemove.service = widget.wifiNetworkSelected;
-                        print("network to remove after failure 3: " +
-                            wifiSsidRemove.service.toString());
-                        widget.wifiRemoveChar
-                            .write(wifiSsidRemove.writeToBuffer())
-                            .then((value) {});
-                      }
-                    });
+                  if (value == "Failed") {
+                    subscription.cancel();
+                    // Remove WiFi Network After Failure
+                    var wifiSsidRemove = protos.wifi_remove_v1.create();
+                    wifiSsidRemove.service = widget.wifiNetworkSelected;
+                    print("network to remove after failure 3: " +
+                        wifiSsidRemove.service.toString());
+                    widget.wifiRemoveChar
+                        .write(wifiSsidRemove.writeToBuffer())
+                        .then((value) {});
+                  }
+                });
               });
             });
           } else {
@@ -218,18 +221,18 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
               StreamSubscription<String> subscription;
               subscription =
                   wifiConnectionStatusStreamController.stream.listen((value) {
-                    if (value == "Failed") {
-                      subscription.cancel();
-                      // Remove WiFi Network After Failure
-                      var wifiSsidRemove = protos.wifi_remove_v1.create();
-                      wifiSsidRemove.service = widget.wifiNetworkSelected;
-                      print("network to remove after failure 4: " +
-                          wifiSsidRemove.service.toString());
-                      widget.wifiRemoveChar
-                          .write(wifiSsidRemove.writeToBuffer())
-                          .then((value) {});
-                    }
-                  });
+                if (value == "Failed") {
+                  subscription.cancel();
+                  // Remove WiFi Network After Failure
+                  var wifiSsidRemove = protos.wifi_remove_v1.create();
+                  wifiSsidRemove.service = widget.wifiNetworkSelected;
+                  print("network to remove after failure 4: " +
+                      wifiSsidRemove.service.toString());
+                  widget.wifiRemoveChar
+                      .write(wifiSsidRemove.writeToBuffer())
+                      .then((value) {});
+                }
+              });
             });
           }
         }
@@ -249,105 +252,11 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
         actions: <Widget>[],
       ),
       body: Column(children: <Widget>[
-        Stack(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 40.0, left: 38.0, right: 40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  StreamBuilder<bool>(
-                      stream: wifiConnectionSuccessStreamController.stream,
-                      initialData: false,
-                      builder: (c, snapshot) {
-                        /// To remove => true
-                        if (snapshot.data == false) {
-                          return Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                          );
-                        } else {
-                          return Icon(Icons.wifi_lock);
-                        }
-                      }),
-                  SizedBox(
-                    width: 12.0,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Text(
-                        widget.wifiNetworkSelected ?? 'Wifi hotspot free',
-                        style: TextStyle(fontSize: 16.0),),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 24.0,
-                  ),
-                  StreamBuilder<String>(
-                      stream: wifiConnectionStatusStreamController.stream,
-                      initialData: "",
-                      builder: (c, snapshot) {
-                        return Container(child: Text(snapshot.data,
-                            style: TextStyle(fontSize: 16.0)
-                        ));
-                      })
-                ],
-              ),
-            ),
-//            Container(
-//                width: double.infinity,
-//                margin:
-//                    const EdgeInsets.only(top: 10.0, left: 22.0, right: 30.0),
-//                child: ListTile(
-//                  title: Text(widget.wifiNetworkSelected ?? 'Hello'),
-//                  leading: StreamBuilder<bool>(
-//                      stream: wifiConnectionSuccessStreamController.stream,
-//                      initialData: false,
-//                      builder: (c, snapshot) {
-//                        /// To remove => true
-//                        if (snapshot.data == false) {
-//                          return Icon(
-//                            Icons.check_circle,
-//                            color: Colors.green,
-//                          );
-//                        } else {
-//                          return Icon(Icons.wifi_lock);
-//                        }
-//                      }),
-//                  trailing: StreamBuilder<String>(
-//                      stream: wifiConnectionStatusStreamController.stream,
-//                      initialData: "",
-//                      builder: (c, snapshot) {
-//                        return Text(snapshot.data);
-//                      }),
-//                )),
-            StreamBuilder<bool>(
-                stream: wifiConnectionSuccessStreamController.stream,
-                initialData: false,
-                builder: (c, snapshot) {
-                  /// To remove => true
-                  if (snapshot.data == false) {
-                    return Container(
-                      margin: EdgeInsets.only(top: 20.0, left: 40.0),
-                      child: Text(
-                        'Connected to',
-                        style: TextStyle(fontSize: 12.0),
-                      ),
-                    );
-                  } else {
-                    return SizedBox(
-                      height: 16.0,
-                    );
-                  }
-                })
-          ],
-        ),
         Container(
           margin: const EdgeInsets.only(top: 20.0, left: 40.0, right: 40.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image(
                 image: AssetImage('assets/images/information-button.png'),
@@ -355,14 +264,16 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                 height: 20.0,
               ),
               SizedBox(
-                width: 12.0,
+                width: 8.0,
               ),
               Expanded(
                 child: Container(
                   child: Text(
                     "Enter WiFi password & press 'Connect to WiFi'",
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87
                     ),
                   ),
                 ),
@@ -370,6 +281,64 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
             ],
           ),
         ),
+        StreamBuilder<bool>(
+            stream: wifiConnectionSuccessStreamController.stream,
+            initialData: false,
+            builder: (c, snapshot) {
+              return Stack(children: [
+                Container(
+                  margin: EdgeInsets.only(
+                      top: (snapshot.data == true) ? 40.0 : 20.0,
+                      left: 38.0,
+                      right: 40.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      (snapshot.data == true)
+                          ? Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            )
+                          : Icon(Icons.wifi_lock),
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: Text(
+                            widget.wifiNetworkSelected ?? '',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 24.0,
+                      ),
+                      StreamBuilder<String>(
+                          stream: wifiConnectionStatusStreamController.stream,
+                          initialData: "",
+                          builder: (c, snapshot) {
+                            return Container(
+                                child: Text(snapshot.data,
+                                    style: TextStyle(fontSize: 16.0)));
+                          })
+                    ],
+                  ),
+                ),
+                (snapshot.data == true)
+                    ? Container(
+                        margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                        child: Text(
+                          'Connected to',
+                          style: TextStyle(fontSize: 12.0),
+                        ),
+                      )
+                    : SizedBox(
+                        height: 0.0,
+                      )
+              ]);
+            }),
         Container(
             width: double.infinity,
             margin: const EdgeInsets.only(top: 0.0, left: 40.0, right: 40.0),
@@ -381,9 +350,7 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                   icon: Icon(
                     // Based on passwordVisible state choose the icon
                     _obscureText ? Icons.visibility : Icons.visibility_off,
-                    color: Theme
-                        .of(context)
-                        .primaryColorDark,
+                    color: Theme.of(context).primaryColorDark,
                   ),
                   onPressed: () {
                     // Update the state i.e. toggle the state of password Visible variable
@@ -416,6 +383,8 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
 //                  wifiConnectionStatusStreamController.add("Connected");
 //                  wifiConnectionSuccessStreamController.add(true);
 //                  _seenConnecting = false;
+//                  // Show prompt
+//                  showSuccessMessage("Successfully connected to ${widget.wifiNetworkSelected}", true);
 //                } else if ("not_found" ==
 //                        new String.fromCharCodes(snapshot.data) ||
 //                    "error" == new String.fromCharCodes(snapshot.data) ||
@@ -423,6 +392,8 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
 //                    "invalid" == new String.fromCharCodes(snapshot.data)) {
 //                  wifiConnectionStatusStreamController.add("Failed");
 //                  wifiConnectionSuccessStreamController.add(false);
+//                  // Show prompt
+//                  showSuccessMessage("Error: Could not connect CoastFi Hotspot to ${widget.wifiNetworkSelected}. Make sure your ${widget.wifiNetworkSelected} network and password is correct.", false);
 //                } else if ("connecting" ==
 //                    new String.fromCharCodes(snapshot.data)) {
 //                  _seenConnecting = true;
@@ -431,27 +402,39 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
 //              } else
 //                return Container();
 //            }),
+//        StreamBuilder<List<int>>(
+//            stream: widget.wifiConnectChar.value,
+//            builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
+//              return Container(
+//                  width: double.infinity,
+//                  margin:
+//                      const EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),
+//                  child: FlatButton(
+//                      onPressed: () =>
+//                          _writeWifiCredentials(passwordController.text),
+//                      highlightColor: Color(int.parse('0xff23abf7')),
+//                      color: Color(int.parse('0xff0F265A')),
+//                      shape: RoundedRectangleBorder(
+//                          borderRadius:
+//                              BorderRadius.all(Radius.circular(10.0))),
+//                      child: Text(
+//                        ("connecting" ==
+//                                new String.fromCharCodes(snapshot.data))
+//                            ? "Connecting..."
+//                            : "Connect to WiFi",
+//                        style: TextStyle(
+//                            fontFamily: 'Nexa',
+//                            fontWeight: FontWeight.bold,
+//                            color: Colors.white),
+//                      )));
+//            }),
         Container(
             width: double.infinity,
             margin: const EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),
-            child: RaisedButton(
-                onPressed: () => _writeWifiCredentials(passwordController.text),
-                color: Color(int.parse('0xff0F265A')),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Text(
-                  "Connect to WiFi",
-                  style: TextStyle(
-                      fontFamily: 'Nexa',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ))),
-        Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),
-            child: RaisedButton(
+            child: FlatButton(
                 onPressed: () =>
                     Navigator.of(context).popUntil((route) => route.isFirst),
+                highlightColor: Color(int.parse('0xff23abf7')),
                 color: Color(int.parse('0xff0F265A')),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
@@ -464,5 +447,65 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                 )))
       ]),
     );
+  }
+
+  void showSuccessMessage(String content, bool isPopView) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          if (Platform.isIOS) {
+            return CupertinoAlertDialog(
+              content: Container(
+                  height: 50.0,
+                  child: Center(
+                      child: Text(
+                    content,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ))),
+              actions: [
+                FlatButton(
+                  onPressed: () {
+                    if (isPopView == true) {
+                      var count = 0;
+                      Navigator.popUntil(context, (route) {
+                        return count++ == 2;
+                      });
+                    }else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0),
+                  ),
+                )
+              ],
+            );
+          } else {
+            return AlertDialog(
+              content: Text(content),
+              actions: [
+                FlatButton(
+                  onPressed: () {
+                    if (isPopView == true) {
+                      var count = 0;
+                      Navigator.popUntil(context, (route) {
+                        return count++ == 2;
+                      });
+                    }else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text('OK'),
+                )
+              ],
+            );
+          }
+        });
   }
 }

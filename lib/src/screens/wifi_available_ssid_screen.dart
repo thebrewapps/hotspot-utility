@@ -44,6 +44,8 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
     super.initState();
     wifiSsidListStreamController
         .add(['Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork']);
+//    wifiSsidListStreamController
+//        .add([]);
 
 //    widget.wifiConfiguredServicesChar.read().then((value) {
 //      configuredSsidResults =
@@ -74,28 +76,31 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
         ),
         body: Column(
           children: [
+            SizedBox(height: 16.0,),
             Container(
-              height: 30.0,
-              margin: EdgeInsets.only(top: 16.0),
-              child: Center(
-                child: Image(
-                  image: AssetImage('assets/images/information-button.png'),
-                  width: 30.0,
-                  height: 30.0,
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 8.0),
-              child: Center(
-                child: Text(
-                  "Find & select your WiFi Network",
-                  style: TextStyle(
-                    fontSize: 20.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                    image: AssetImage(
+                        'assets/images/information-button.png'),
+                    width: 20.0,
+                    height: 20.0,
                   ),
-                ),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Text(
+                    'Select your WiFi Network',
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0),
+                  )
+                ],
               ),
             ),
+            SizedBox(height: 16.0,),
             mainWidget()
           ],
         ));
@@ -118,11 +123,8 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
                       children: [
                         ListTile(
                             title: Text(snapshot.data[index].toString()),
-
-                            /// To remove => ==
-                            leading: index == 1
-//                      leading: snapshot.data[index].toString() ==
-//                              widget.currentWifiSsid
+                      leading: snapshot.data[index].toString() ==
+                              widget.currentWifiSsid
                                 ? Icon(
                                     Icons.check_circle,
                                     color: Colors.green,
@@ -139,8 +141,6 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
                             onTap: () {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
-                                /// To remove
-                                return WifiConnectScreen();
                                 return WifiConnectScreen(
                                     currentWifiSsid: widget.currentWifiSsid,
                                     device: widget.device,
@@ -153,9 +153,8 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
                                     wifiRemoveChar: widget.wifiRemoveChar);
                               }));
                             }),
-                        (index == 1)
-//                        snapshot.data[index].toString() ==
-//                              widget.currentWifiSsid
+                        snapshot.data[index].toString() ==
+                              widget.currentWifiSsid
                             ? Container(
                                 padding: EdgeInsets.only(left: 16.0),
                                 child: Text(
