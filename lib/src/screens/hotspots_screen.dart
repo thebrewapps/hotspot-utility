@@ -118,8 +118,6 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
           if (snapshot.data == true) {
             return Column(
               children: [
-                sampleWidget(),
-                connectWifiSample(),
                 SizedBox(
                   child: Card(
                     color: Colors.white,
@@ -185,8 +183,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
       stream: FlutterBlue.instance.scanResults,
       initialData: [],
       builder: (c, snapshot) {
-        /// To remove => false
-        if (snapshot.data.isEmpty == false && scanned) {
+        if (snapshot.data.isEmpty == true && scanned) {
           return Container(
             child: noResult(),
           );
@@ -294,14 +291,6 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
 
   Widget resultsWidget(List<ScanResult> data) {
     return ListView(
-      children: [ScanResultTile(
-        result: scanResult,
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HotspotScreen()));
-        },
-      )],
-    );
-    return ListView(
       children: data
           .map(
             (r) => ScanResultTile(
@@ -327,85 +316,85 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
     );
   }
 
-  var scanResult = ScanResult(
-      device: BluetoothDevice(
-          id: DeviceIdentifier("test"),
-          name: "Coast",
-          type: BluetoothDeviceType.classic),
-      rssi: 123,
-      advertisementData: AdvertisementData(
-          localName: 'CoastFi Hotspot 6476',
-          connectable: true,
-          txPowerLevel: 123,
-          serviceUuids: [
-            "123",
-            "345",
-            "123",
-            "345",
-            "123",
-            "345",
-            "123",
-            "345",
-            "123",
-            "345",
-            "123",
-            "345",
-            "123",
-            "345"
-          ]));
-
-  Widget sampleWidget() {
-    return ScanResultTile(
-      result: ScanResult(
-          device: BluetoothDevice(
-              id: DeviceIdentifier("test"),
-              name: "Coast",
-              type: BluetoothDeviceType.classic),
-          rssi: 123,
-          advertisementData: AdvertisementData(
-              localName: 'CoastFi Hotspot 6476',
-              connectable: true,
-              txPowerLevel: 123,
-              serviceUuids: [
-                "123",
-                "345",
-                "123",
-                "345",
-                "123",
-                "345",
-                "123",
-                "345",
-                "123",
-                "345",
-                "123",
-                "345",
-                "123",
-                "345"
-              ])),
-      onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => WifiAvailableScreen()));
-      },
-    );
-  }
-
-  Widget connectWifiSample() {
-    return Container(
-      child: Center(
-        child: FlatButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WifiConnectScreen(
-                          wifiNetworkSelected: "Wifi A0909",
-                        )));
-          },
-          child: Text('Go to Connect Wifi'),
-        ),
-      ),
-    );
-  }
+//  var scanResult = ScanResult(
+//      device: BluetoothDevice(
+//          id: DeviceIdentifier("test"),
+//          name: "Coast",
+//          type: BluetoothDeviceType.classic),
+//      rssi: 123,
+//      advertisementData: AdvertisementData(
+//          localName: 'CoastFi Hotspot 6476',
+//          connectable: true,
+//          txPowerLevel: 123,
+//          serviceUuids: [
+//            "123",
+//            "345",
+//            "123",
+//            "345",
+//            "123",
+//            "345",
+//            "123",
+//            "345",
+//            "123",
+//            "345",
+//            "123",
+//            "345",
+//            "123",
+//            "345"
+//          ]));
+//
+//  Widget sampleWidget() {
+//    return ScanResultTile(
+//      result: ScanResult(
+//          device: BluetoothDevice(
+//              id: DeviceIdentifier("test"),
+//              name: "Coast",
+//              type: BluetoothDeviceType.classic),
+//          rssi: 123,
+//          advertisementData: AdvertisementData(
+//              localName: 'CoastFi Hotspot 6476',
+//              connectable: true,
+//              txPowerLevel: 123,
+//              serviceUuids: [
+//                "123",
+//                "345",
+//                "123",
+//                "345",
+//                "123",
+//                "345",
+//                "123",
+//                "345",
+//                "123",
+//                "345",
+//                "123",
+//                "345",
+//                "123",
+//                "345"
+//              ])),
+//      onTap: () {
+//        Navigator.push(context,
+//            MaterialPageRoute(builder: (context) => WifiAvailableScreen()));
+//      },
+//    );
+//  }
+//
+//  Widget connectWifiSample() {
+//    return Container(
+//      child: Center(
+//        child: FlatButton(
+//          onPressed: () {
+//            Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                    builder: (context) => WifiConnectScreen(
+//                          wifiNetworkSelected: "Wifi A0909",
+//                        )));
+//          },
+//          child: Text('Go to Connect Wifi'),
+//        ),
+//      ),
+//    );
+//  }
 
   Widget findButtonWidget() {
     return Container(

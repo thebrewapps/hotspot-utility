@@ -363,71 +363,71 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
               controller: passwordController,
               obscureText: _obscureText,
             )),
-//        StreamBuilder<List<int>>(
-//            stream: widget.wifiSsidChar.value,
-//            builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
-//              if (snapshot.hasData) {
-//                print("WiFi SSID: " + new String.fromCharCodes(snapshot.data));
-//                return Container();
-//              } else
-//                return Container();
-//            }),
-//        StreamBuilder<List<int>>(
-//            stream: widget.wifiConnectChar.value,
-//            builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
-//              if (snapshot.hasData) {
-//                print(
-//                    "WiFi Connect: " + new String.fromCharCodes(snapshot.data));
-//                if ("connected" == new String.fromCharCodes(snapshot.data) &&
-//                    _seenConnecting) {
-//                  wifiConnectionStatusStreamController.add("Connected");
-//                  wifiConnectionSuccessStreamController.add(true);
-//                  _seenConnecting = false;
-//                  // Show prompt
-//                  showSuccessMessage("Successfully connected to ${widget.wifiNetworkSelected}", true);
-//                } else if ("not_found" ==
-//                        new String.fromCharCodes(snapshot.data) ||
-//                    "error" == new String.fromCharCodes(snapshot.data) ||
-//                    "failed" == new String.fromCharCodes(snapshot.data) ||
-//                    "invalid" == new String.fromCharCodes(snapshot.data)) {
-//                  wifiConnectionStatusStreamController.add("Failed");
-//                  wifiConnectionSuccessStreamController.add(false);
-//                  // Show prompt
-//                  showSuccessMessage("Error: Could not connect CoastFi Hotspot to ${widget.wifiNetworkSelected}. Make sure your ${widget.wifiNetworkSelected} network and password is correct.", false);
-//                } else if ("connecting" ==
-//                    new String.fromCharCodes(snapshot.data)) {
-//                  _seenConnecting = true;
-//                }
-//                return Container();
-//              } else
-//                return Container();
-//            }),
-//        StreamBuilder<List<int>>(
-//            stream: widget.wifiConnectChar.value,
-//            builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
-//              return Container(
-//                  width: double.infinity,
-//                  margin:
-//                      const EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),
-//                  child: FlatButton(
-//                      onPressed: () =>
-//                          _writeWifiCredentials(passwordController.text),
-//                      highlightColor: Color(int.parse('0xff23abf7')),
-//                      color: Color(int.parse('0xff0F265A')),
-//                      shape: RoundedRectangleBorder(
-//                          borderRadius:
-//                              BorderRadius.all(Radius.circular(10.0))),
-//                      child: Text(
-//                        ("connecting" ==
-//                                new String.fromCharCodes(snapshot.data))
-//                            ? "Connecting..."
-//                            : "Connect to WiFi",
-//                        style: TextStyle(
-//                            fontFamily: 'Nexa',
-//                            fontWeight: FontWeight.bold,
-//                            color: Colors.white),
-//                      )));
-//            }),
+        StreamBuilder<List<int>>(
+            stream: widget.wifiSsidChar.value,
+            builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
+              if (snapshot.hasData) {
+                print("WiFi SSID: " + new String.fromCharCodes(snapshot.data));
+                return Container();
+              } else
+                return Container();
+            }),
+        StreamBuilder<List<int>>(
+            stream: widget.wifiConnectChar.value,
+            builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
+              if (snapshot.hasData) {
+                print(
+                    "WiFi Connect: " + new String.fromCharCodes(snapshot.data));
+                if ("connected" == new String.fromCharCodes(snapshot.data) &&
+                    _seenConnecting) {
+                  wifiConnectionStatusStreamController.add("Connected");
+                  wifiConnectionSuccessStreamController.add(true);
+                  _seenConnecting = false;
+                  // Show prompt
+                  showSuccessMessage("Successfully connected to ${widget.wifiNetworkSelected}. You can close the CoastFi App.", true);
+                } else if ("not_found" ==
+                        new String.fromCharCodes(snapshot.data) ||
+                    "error" == new String.fromCharCodes(snapshot.data) ||
+                    "failed" == new String.fromCharCodes(snapshot.data) ||
+                    "invalid" == new String.fromCharCodes(snapshot.data)) {
+                  wifiConnectionStatusStreamController.add("Failed");
+                  wifiConnectionSuccessStreamController.add(false);
+                  // Show prompt
+                  showSuccessMessage("Error: Could not connect CoastFi Hotspot to ${widget.wifiNetworkSelected}. Make sure your ${widget.wifiNetworkSelected} network and password is correct.", false);
+                } else if ("connecting" ==
+                    new String.fromCharCodes(snapshot.data)) {
+                  _seenConnecting = true;
+                }
+                return Container();
+              } else
+                return Container();
+            }),
+        StreamBuilder<List<int>>(
+            stream: widget.wifiConnectChar.value,
+            builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
+              return Container(
+                  width: double.infinity,
+                  margin:
+                      const EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),
+                  child: FlatButton(
+                      onPressed: () =>
+                          _writeWifiCredentials(passwordController.text),
+                      highlightColor: Color(int.parse('0xff23abf7')),
+                      color: Color(int.parse('0xff0F265A')),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      child: Text(
+                        ("connecting" ==
+                                new String.fromCharCodes(snapshot.data))
+                            ? "Connecting..."
+                            : "Connect to WiFi",
+                        style: TextStyle(
+                            fontFamily: 'Nexa',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      )));
+            }),
         Container(
             width: double.infinity,
             margin: const EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),

@@ -62,56 +62,56 @@ class _HotspotScreenState extends State<HotspotScreen> {
     ethernetStatusStreamController.add('');
     hotspotFirmwareStreamController.add('');
     hotspotSerialStreamController.add('');
-//    widget.device.state.listen((connectionState) {
-//      if (connectionState == BluetoothDeviceState.connected) {
-//        widget.device.discoverServices().then((services) {
-//          _findChars(services);
-//          // public key
-//          publicKeyChar.read().then((value) {
-//            publicKeyResult = new String.fromCharCodes(value);
-//            // hotspot info http
-//            http
-//                .get("https://api.helium.io/v1/hotspots/" + publicKeyResult)
-//                .then((value) {
-//              var parsed = json.decode(value.body);
-//              hotspotNameStreamController.add(parsed['data']['name']);
-//            }).catchError((e) {
-//              print("Helium API Error");
-//            });
-//            // current wifi ssid
-//            wifiSsidChar.read().then((value) {
-//              wifiSsidResult = new String.fromCharCodes(value);
-//              // add result to stream
-//              wifiSsidStreamController.add(wifiSsidResult);
-//              // ethernet status
-//              ethernetOnlineChar.read().then((value) {
-//                var ethernetStatusResult = new String.fromCharCodes(value);
-//                // add result to stream
-//                if (ethernetStatusResult == 'true') {
-//                  ethernetStatusStreamController.add('Connected');
-//                } else {
-//                  ethernetStatusStreamController.add('Disconnected');
-//                }
-//                // hotspot firmware version
-//                hotspotFirmwareChar.read().then((value) {
-//                  // add result to stream
-//                  hotspotFirmwareStreamController
-//                      .add(new String.fromCharCodes(value));
-//                  // hotspot serial number
-//                  hotspotSerialChar.read().then((value) {
-//                    // indicate last char read is done
-//                    charReadStatusStreamController.add(true);
-//                    // add result to stream
-//                    hotspotSerialStreamController
-//                        .add(new String.fromCharCodes(value));
-//                  });
-//                });
-//              });
-//            });
-//          });
-//        });
-//      }
-//    });
+    widget.device.state.listen((connectionState) {
+      if (connectionState == BluetoothDeviceState.connected) {
+        widget.device.discoverServices().then((services) {
+          _findChars(services);
+          // public key
+          publicKeyChar.read().then((value) {
+            publicKeyResult = new String.fromCharCodes(value);
+            // hotspot info http
+            http
+                .get("https://api.helium.io/v1/hotspots/" + publicKeyResult)
+                .then((value) {
+              var parsed = json.decode(value.body);
+              hotspotNameStreamController.add(parsed['data']['name']);
+            }).catchError((e) {
+              print("Helium API Error");
+            });
+            // current wifi ssid
+            wifiSsidChar.read().then((value) {
+              wifiSsidResult = new String.fromCharCodes(value);
+              // add result to stream
+              wifiSsidStreamController.add(wifiSsidResult);
+              // ethernet status
+              ethernetOnlineChar.read().then((value) {
+                var ethernetStatusResult = new String.fromCharCodes(value);
+                // add result to stream
+                if (ethernetStatusResult == 'true') {
+                  ethernetStatusStreamController.add('Connected');
+                } else {
+                  ethernetStatusStreamController.add('Disconnected');
+                }
+                // hotspot firmware version
+                hotspotFirmwareChar.read().then((value) {
+                  // add result to stream
+                  hotspotFirmwareStreamController
+                      .add(new String.fromCharCodes(value));
+                  // hotspot serial number
+                  hotspotSerialChar.read().then((value) {
+                    // indicate last char read is done
+                    charReadStatusStreamController.add(true);
+                    // add result to stream
+                    hotspotSerialStreamController
+                        .add(new String.fromCharCodes(value));
+                  });
+                });
+              });
+            });
+          });
+        });
+      }
+    });
   }
 
   void _findChars(List<BluetoothService> services) {

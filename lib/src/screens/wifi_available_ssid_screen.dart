@@ -42,25 +42,25 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
   @mustCallSuper
   void initState() {
     super.initState();
-    wifiSsidListStreamController
-        .add(['Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork']);
 //    wifiSsidListStreamController
-//        .add([]);
+//        .add(['Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork']);
+    wifiSsidListStreamController
+        .add([]);
 
-//    widget.wifiConfiguredServicesChar.read().then((value) {
-//      configuredSsidResults =
-//          protos.wifi_services_v1.fromBuffer(value).services.toList();
-//
-//      widget.wifiServicesChar.read().then((value) {
-//        if (new String.fromCharCodes(value) != "failed") {
-//          var availableSsidResults =
-//              protos.wifi_services_v1.fromBuffer(value).services;
-//          wifiSsidListStreamController.add(availableSsidResults);
-//        }
-//      });
-//    }).catchError((e) {
-//      print("Error: wifiConfiguredServices Failure: ${e.toString()}");
-//    });
+    widget.wifiConfiguredServicesChar.read().then((value) {
+      configuredSsidResults =
+          protos.wifi_services_v1.fromBuffer(value).services.toList();
+
+      widget.wifiServicesChar.read().then((value) {
+        if (new String.fromCharCodes(value) != "failed") {
+          var availableSsidResults =
+              protos.wifi_services_v1.fromBuffer(value).services;
+          wifiSsidListStreamController.add(availableSsidResults);
+        }
+      });
+    }).catchError((e) {
+      print("Error: wifiConfiguredServices Failure: ${e.toString()}");
+    });
   }
 
   @override
