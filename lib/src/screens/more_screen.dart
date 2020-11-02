@@ -17,7 +17,7 @@ class MoreScreen extends StatelessWidget {
         ),
         body: ListView(
           children: ListTile.divideTiles(context: context, tiles: [
-            ListTile(title: Text('Version'), trailing: Text("0.1.0")),
+            ListTile(title: Text('Version'), trailing: Text("1.0.1")),
             ListTile(
               title: Text('Software License'),
               onTap: () {
