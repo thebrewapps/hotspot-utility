@@ -7,11 +7,32 @@ import 'package:hotspotutility/src/screens/wifi_available_ssid_screen.dart';
 import 'package:hotspotutility/src/screens/wifi_connect_screen.dart';
 import 'package:hotspotutility/src/widgets/bluetooth_device_widgets.dart';
 
+import 'package:flutter_blue/gen/flutterblue.pb.dart' as proto;
+
 final List<Guid> scanFilterServiceUuids = [
   Guid('0fda92b2-44a2-4af2-84f5-fa682baa2b8d')
 ];
 
-class HotspotsScreen extends StatelessWidget {
+enum DeviceBtType { LE, CLASSIC, DUAL, UNKNOWN }
+BluetoothDevice createBluetoothDevice(
+    String deviceName, String deviceIdentifier, DeviceBtType deviceType) {
+  proto.BluetoothDevice p = proto.BluetoothDevice.create();
+  p.name = deviceName;
+  p.remoteId = deviceIdentifier;
+
+  if (deviceType == DeviceBtType.LE) {
+    p.type = proto.BluetoothDevice_Type.LE;
+  } else if (deviceType == DeviceBtType.CLASSIC) {
+    p.type = proto.BluetoothDevice_Type.CLASSIC;
+  } else if (deviceType == DeviceBtType.DUAL) {
+    p.type = proto.BluetoothDevice_Type.DUAL;
+  } else {
+    p.type = proto.BluetoothDevice_Type.UNKNOWN;
+  }
+  return BluetoothDevice.fromProto(p);
+}
+
+class HotspotsScreen2 extends StatelessWidget {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -116,7 +137,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
         initialData: false,
         builder: (c, snapshot) {
           if (snapshot.data == true) {
-            return Column(
+            return ListView(
               children: [
                 SizedBox(
                   child: Card(
@@ -152,11 +173,11 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 16.0,
-                            ),
+                            SizedBox(height: 16.0),
+                            
+
                             Text(
-                              "1. Press the black button on the left side of the CoastFi Hotspot\n\n2. Wait for the light on the top of the hotspot to turn blue\n\n3. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\n4. Once CoastFi Hotspot is found, press 'Connect'",
+                              "1. Make sure Bluetooth is enabled on this phone \n\n2. Unplug the power adapter from the CoastFi Hotspot. Plug the power adapter back in \n\n3. Wait 60 seconds. The CoastFi Hotspot should now be in Bluetooth pairing mode \n\n4. Press ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot \n\n5. Once CoastFi Hotspot is found, press ‘Connect’",
                               style: TextStyle(
                                   color: Colors.black87,
                                   fontWeight: FontWeight.normal,
@@ -169,7 +190,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                     ),
                   ),
                 ),
-                Expanded(child: Container()),
+                // Expanded(child: Container()),
               ],
             );
           } else {
@@ -183,6 +204,33 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
       stream: FlutterBlue.instance.scanResults,
       initialData: [],
       builder: (c, snapshot) {
+        // for (var i = 0; i < 20; i++)
+          // snapshot.data.add(ScanResult(
+          //     device: createBluetoothDevice(
+          //         'deviceName', 'deviceIdentifier', DeviceBtType.LE),
+          //     rssi: 123,
+          //     advertisementData: AdvertisementData(
+          //         localName: 'CoastFi Hotspot 6476',
+          //         connectable: true,
+          //         txPowerLevel: 123,
+          //         serviceUuids: [
+          //           "123",
+          //           "345",
+          //           "123",
+          //           "345",
+          //           "123",
+          //           "345",
+          //           "123",
+          //           "345",
+          //           "123",
+          //           "345",
+          //           "123",
+          //           "345",
+          //           "123",
+          //           "345"
+          //         ]))
+          //     );
+
         if (snapshot.data.isEmpty == true && scanned) {
           return Container(
             child: noResult(),
@@ -211,14 +259,14 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                         width: 8.0,
                       ),
                       Container(
-                          child: Text(
-                            "Press 'Connect' button",
-                            style: TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0),
-                          ),
-                        )
+                        child: Text(
+                          "Press 'Connect' button",
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -267,10 +315,23 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 16.0,
+                    height: 16.0
                   ),
                   Text(
-                    "No Hotspot Found\n1. Press the black button on the left side of the CoastFi Hotspot\n2. Wait for the light on the top of the hotspot to turn blue\n3. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n4. Once CoastFi Hotspot is found, press 'Connect'\n\nIf the light on the top of the hotspot does not turn blue, or you have re-attempted the steps above and still cannot find the hotspot - reset the CoastFi Hotspot by removing the power supply, waiting 15 seconds and then re-inserting the power supply. Wait 60 seconds until the light on the top of the CoastFi Hotspot becomes a steady ‘yellow’ or ‘green color’. Then try again.\n\nStill not able to pair with the CoastFi Hotspot? Send an email to help@coastfi.com or call 888-COAST81",
+                              "Just plugged in Hotspot? Wait 60 seconds for it to turn on. Press ‘Find Hotspot’",
+                              
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 20.0),
+                              textAlign: TextAlign.left,
+                            ),
+                  SizedBox(
+                    height: 16.0
+                  ),
+                            
+                  Text(
+                    "No Hotspot Found\n1. Bluetooth must be enabled on mobile phone to find & pair with CoastFi Hotspot. Enable Bluetooth in your phone settings\n\n2. Unplug the power adapter from the CoastFi Hotspot. Plug the power adapter back in.\n\n3. Wait 60 seconds for the CoastFi Hotspot to power back on. The CoastFi Hotspot should now be in Bluetooth pairing mode\n\n4. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\n5. Once the CoastFi Hotspot is found, press ‘Connect’\n\nIf you have re-attempted the steps above and still cannot find the hotspot - try plugging the power adapter into another outlet and waiting 60 seconds. Then try again.\n\nStill not able to pair with the CoastFi Hotspot? Send an email to help@coastfi.com or call 888-COAST81",
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 20.0,
@@ -308,6 +369,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                 }, onError: (error) {
                   print("Connection Error: " + error);
                 });
+                print('object');
                 return HotspotScreen(device: r.device);
               })),
             ),
@@ -317,10 +379,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
   }
 
 //  var scanResult = ScanResult(
-//      device: BluetoothDevice(
-//          id: DeviceIdentifier("test"),
-//          name: "Coast",
-//          type: BluetoothDeviceType.classic),
+//      device: createBluetoothDevice('deviceName', 'deviceIdentifier', DeviceBtType.LE),
 //      rssi: 123,
 //      advertisementData: AdvertisementData(
 //          localName: 'CoastFi Hotspot 6476',
@@ -342,14 +401,15 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
 //            "123",
 //            "345"
 //          ]));
-//
+
 //  Widget sampleWidget() {
 //    return ScanResultTile(
 //      result: ScanResult(
-//          device: BluetoothDevice(
-//              id: DeviceIdentifier("test"),
-//              name: "Coast",
-//              type: BluetoothDeviceType.classic),
+//         //  device: BluetoothDevice(
+//         //      id: DeviceIdentifier("test"),
+//         //      name: "Coast",
+//         //      type: BluetoothDeviceType.classic),
+//         device: createBluetoothDevice('deviceName', 'deviceIdentifier', DeviceBtType.LE),
 //          rssi: 123,
 //          advertisementData: AdvertisementData(
 //              localName: 'CoastFi Hotspot 6476',
@@ -377,24 +437,24 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
 //      },
 //    );
 //  }
-//
-//  Widget connectWifiSample() {
-//    return Container(
-//      child: Center(
-//        child: FlatButton(
-//          onPressed: () {
-//            Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                    builder: (context) => WifiConnectScreen(
-//                          wifiNetworkSelected: "Wifi A0909",
-//                        )));
-//          },
-//          child: Text('Go to Connect Wifi'),
-//        ),
-//      ),
-//    );
-//  }
+
+  Widget connectWifiSample() {
+    return Container(
+      child: Center(
+        child: FlatButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => WifiConnectScreen(
+                          wifiNetworkSelected: "Wifi A0909",
+                        )));
+          },
+          child: Text('Go to Connect Wifi'),
+        ),
+      ),
+    );
+  }
 
   Widget findButtonWidget() {
     return Container(

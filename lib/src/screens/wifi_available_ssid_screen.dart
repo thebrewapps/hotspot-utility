@@ -42,8 +42,8 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
   @mustCallSuper
   void initState() {
     super.initState();
-//    wifiSsidListStreamController
-//        .add(['Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork']);
+  //  wifiSsidListStreamController
+  //      .add(['Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork', 'Wifi NetWork']);
     wifiSsidListStreamController
         .add([]);
 
@@ -74,7 +74,7 @@ class _WifiAvailableScreenState extends State<WifiAvailableScreen> {
                   fontSize: 24.0)),
           actions: <Widget>[],
         ),
-        body: Column(
+        body: ListView(
           children: [
             SizedBox(height: 16.0,),
             Container(

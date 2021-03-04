@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hotspotutility/src/screens/hotspots_screen.dart';
+import 'package:hotspotutility/src/screens/HomeScreen.dart';
+// import 'package:hotspotutility/src/screens/hotspots_screen1.dart';
 import 'package:hotspotutility/src/screens/more_screen.dart';
 
 class App extends StatelessWidget {
@@ -37,7 +38,7 @@ class _ParentWidgetState extends State<ParentWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[HotspotsScreen(), MoreScreen()];
+  static List<Widget> _widgetOptions = <Widget>[HomeScreen(), MoreScreen()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -55,7 +56,7 @@ class _ParentWidgetState extends State<ParentWidget> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.bluetooth),
+              Icons.home),
             title: Text('Hotspots'),
           ),
           BottomNavigationBarItem(
