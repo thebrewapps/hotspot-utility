@@ -71,7 +71,7 @@ class _HotspotScreenState extends State<HotspotScreen> {
             publicKeyResult = new String.fromCharCodes(value);
             // hotspot info http
             http
-                .get("https://api.helium.io/v1/hotspots/" + publicKeyResult)
+                .get(Uri.parse("https://api.helium.io/v1/hotspots/" + publicKeyResult))
                 .then((value) {
               var parsed = json.decode(value.body);
               hotspotNameStreamController.add(parsed['data']['name']);
