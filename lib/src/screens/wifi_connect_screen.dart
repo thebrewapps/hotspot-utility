@@ -384,7 +384,8 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
                   wifiConnectionSuccessStreamController.add(true);
                   _seenConnecting = false;
                   // Show prompt
-                  showSuccessMessage("Successfully connected to ${widget.wifiNetworkSelected}. You can close the CoastFi App.", true);
+                  // showSuccessMessage("Successfully connected to ${widget.wifiNetworkSelected}. You can close the CoastFi App.", true);
+                  showSuccessMessage("Successfully connected to ${widget.wifiNetworkSelected}. REQUIRED NEXT STEP FOR NEWLY INSTALLED HOTSPOTS:\n\nPlease complete Step 4 of the CoastFi Hotspot Setup Instructions to confirm your installation and provide your preferred payment method.\n\nYou may now close the CoastFi App.", true);
                 } else if ("not_found" ==
                         new String.fromCharCodes(snapshot.data) ||
                     "error" == new String.fromCharCodes(snapshot.data) ||
@@ -456,7 +457,7 @@ class _WifiConnectScreenState extends State<WifiConnectScreen> {
           if (Platform.isIOS) {
             return CupertinoAlertDialog(
               content: Container(
-                  height: 50.0,
+                  // height: 50.0,
                   child: Center(
                       child: Text(
                     content,

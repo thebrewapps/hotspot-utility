@@ -177,7 +177,8 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                             
 
                             Text(
-                              "1. Make sure Bluetooth is enabled on this phone \n\n2. Unplug the power adapter from the CoastFi Hotspot. Plug the power adapter back in \n\n3. Wait 60 seconds. The CoastFi Hotspot should now be in Bluetooth pairing mode \n\n4. Press ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot \n\n5. Once CoastFi Hotspot is found, press ‘Connect’",
+                              // "1. Make sure Bluetooth is enabled on this phone \n\n2. Unplug the power adapter from the CoastFi Hotspot. Plug the power adapter back in \n\n3. Wait exactly 2 minutes for Bluetooth to activate on the CoastFi Hotspot. The CoastFi Hotspot should now be in Bluetooth pairing mode \n\n4. Press ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot \n\n5. Once CoastFi Hotspot is found, press ‘Connect’",
+                              "1. Turn Bluetooth on in your phone/device settings and then return to the CoastFi App\n\n2. Remove the power supply from the CoastFi Hotspot. Re-insert the power supply.\n\n3. Wait exactly 2 minutes for Bluetooth to activate on the CoastFi Hotspot. The CoastFi Hotspot should now be in pairing mode.\n\n4. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\n5. Once CoastFi Hotspot is found, press ‘Connect’",
                               style: TextStyle(
                                   color: Colors.black87,
                                   fontWeight: FontWeight.normal,
@@ -317,21 +318,23 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                   SizedBox(
                     height: 16.0
                   ),
-                  Text(
-                              "Just plugged in Hotspot? Wait 60 seconds for it to turn on. Press ‘Find Hotspot’",
+                  // Text(
+                  //             "Just plugged in Hotspot? Wait 60 seconds for it to turn on. Press ‘Find Hotspot’",
+                  //             // "",
                               
-                              style: TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 20.0),
-                              textAlign: TextAlign.left,
-                            ),
-                  SizedBox(
-                    height: 16.0
-                  ),
+                  //             style: TextStyle(
+                  //                 color: Colors.black87,
+                  //                 fontWeight: FontWeight.normal,
+                  //                 fontSize: 20.0),
+                  //             textAlign: TextAlign.left,
+                  //           ),
+                  // SizedBox(
+                  //   height: 16.0
+                  // ),
                             
                   Text(
-                    "No Hotspot Found\n1. Bluetooth must be enabled on mobile phone to find & pair with CoastFi Hotspot. Enable Bluetooth in your phone settings\n\n2. Unplug the power adapter from the CoastFi Hotspot. Plug the power adapter back in.\n\n3. Wait 60 seconds for the CoastFi Hotspot to power back on. The CoastFi Hotspot should now be in Bluetooth pairing mode\n\n4. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\n5. Once the CoastFi Hotspot is found, press ‘Connect’\n\nIf you have re-attempted the steps above and still cannot find the hotspot - try plugging the power adapter into another outlet and waiting 60 seconds. Then try again.\n\nStill not able to pair with the CoastFi Hotspot? Send an email to help@coastfi.com or call 888-COAST81",
+                    // "No Hotspot Found\n1. Bluetooth must be enabled on mobile phone to find & pair with CoastFi Hotspot. Enable Bluetooth in your phone settings\n\n2. Unplug the power adapter from the CoastFi Hotspot. Plug the power adapter back in.\n\n3. Wait exactly 2 minutes for the CoastFi Hotspot to power back on and for Bluetooth to activate on the CoastFi Hotspot. The CoastFi Hotspot should now be in Bluetooth pairing mode\n\n4. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\n5. Once the CoastFi Hotspot is found, press ‘Connect’\n\nIf you have re-attempted the steps above and still cannot find the hotspot - Restart your phone. Activate Bluetooth on phone once powered back on. Unplug the power adapter from the CoastFi Hotspot and try another outlet. Wait exactly 2 minutes for the CoastFi Hotspot to power back on. Then try again.\n\nStill not able to pair with the CoastFi Hotspot? Send an email to help@coastfi.com or call 888-COAST81",
+                    "Just plugged in the CoastFi Hotspot? It takes the CoastFi Hotspot exactly 2 minutes after plugging it in for it to be found in the CoastFi App. Wait 2 minutes for it to turn on and press ‘Find Hotspot’ in the CoastFi App.\n\nThe CoastFi Hotspot will remain in Bluetooth pairing mode and be discoverable by the CoastFi App for up to 5 minutes. If it has been more than 5 minutes since you plugged in the CoastFi Hotspot you will need to reset it by removing the power supply, re-inserting the power supply, and waiting 2 minutes for the CoastFi Hotspot to restart.\n\n1. Turn Bluetooth on in your phone/device settings and then return to the CoastFi App\n\n2. Remove the power supply from the CoastFi Hotspot. Re-insert the power supply.\n\n3. Wait exactly 2 minutes for Bluetooth to activate on the CoastFi Hotspot. The CoastFi Hotspot should now be in pairing mode.\n\n4. Press the ‘Find Hotspot’ button in the app below to find the CoastFi Hotspot\n\n5. Once CoastFi Hotspot is found, press ‘Connect’\n\nIf you have re-attempted the steps above and the CoastFi Hotspot or you have re-attempted the steps above and are still unable to ‘Find Hotspot’ in the CoastFi App you must reset the phone/device that you are using the CoastFi App on.\n\nReset your phone/device. Turn Bluetooth on in your phone/device settings once it powers on. Re-open the CoastFi App.\n\nNow reset the CoastFi Hotspot by removing the power supply, waiting 15 seconds, and then re-inserting the power supply. Then try again.\n\nStill unable to pair with the CoastFi Hotspot? Send an email to help@coastfi.com, call or text 888-262-7881",
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 20.0,
