@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:hotspotutility/src/screens/hotspot_screen.dart';
-import 'package:hotspotutility/src/screens/wifi_available_ssid_screen.dart';
+// import 'package:hotspotutility/src/screens/wifi_available_ssid_screen.dart';
 import 'package:hotspotutility/src/screens/wifi_connect_screen.dart';
 import 'package:hotspotutility/src/widgets/bluetooth_device_widgets.dart';
 

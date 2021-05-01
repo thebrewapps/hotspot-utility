@@ -34,7 +34,7 @@ class MoreScreen extends StatelessWidget {
             //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) =>	Text(snapshot.hasData ? snapshot.data : "Loading ...",)
             //   // child: Text(version)
             // )),
-            ListTile(title: Text('Version'), trailing: Text("2.0.3")),
+            ListTile(title: Text('Version'), trailing: Text("2.0.4")),
             ListTile(
               title: Text('Software License'),
               onTap: () {
