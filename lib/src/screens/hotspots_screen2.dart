@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:hotspotutility/src/screens/hotspot_screen.dart';
-// import 'package:hotspotutility/src/screens/wifi_available_ssid_screen.dart';
+import 'package:hotspotutility/src/screens/hotspots_screen2a.dart';
+import 'package:hotspotutility/src/screens/hotspots_screen2b.dart';
+import 'package:hotspotutility/src/screens/wifi_available_ssid_screen.dart';
 import 'package:hotspotutility/src/screens/wifi_connect_screen.dart';
 import 'package:hotspotutility/src/widgets/bluetooth_device_widgets.dart';
 
@@ -106,21 +108,128 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Find CoastFi Hotspot',
+          'CoastFi',
           style: TextStyle(
               fontFamily: 'Nexa', fontWeight: FontWeight.bold, fontSize: 24.0),
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () => FlutterBlue.instance.startScan(
-            timeout: Duration(seconds: 3),
-            withServices: scanFilterServiceUuids),
-        child: Stack(
-          alignment: const Alignment(0.0, 1.0),
-          children: [mainWidget(), findButtonWidget()],
+      body: Column(
+         mainAxisSize: MainAxisSize.max,
+         crossAxisAlignment: CrossAxisAlignment.center,
+        //  mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height:20),
+            // Center(),
+            Text(
+              'CHOOSE HOTSPOT VERSION',
+              style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 25.0,
+                        color: Theme.of(context).primaryColor
+                        ),
+            ),
+            SizedBox(height: 30),
+            Text(
+              'Click the image below that looks like your CoastFi Hotspot',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16.0,
+                        color: Colors.black38),
+            ),
+            SizedBox(height: 40),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HotspotsScreen2a()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      // Container(
+                      //   height: 100,
+                      //   width: 140,
+                      //   decoration: BoxDecoration(
+                      //     image: DecorationImage(image: AssetImage('assets/images/Model_2_Version_1.png'), fit: BoxFit.contain),
+                      //     // color: Colors.black12
+                      //   ),
+                      //   // child: SizedBox(heig),
+                      // ),
+                      // Image.asset('assets/images/hotspot-model-2a.png',width: 100,),
+                      Image.asset('assets/images/Model_2_Version_1.png',height: 100,),
+                      
+                      SizedBox(height:10),
+                      Text('Version 1.0',style: TextStyle(decoration: TextDecoration.underline,),)
+                    ],
+                  )
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HotspotsScreen2b()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      // Container(
+                      //   height: 100,
+                      //   width: 140,
+                      //   decoration: BoxDecoration(
+                      //     image: DecorationImage(image: AssetImage('assets/images/Model_2_Version_2.png'), fit: BoxFit.contain),
+                      //     // color: Colors.black12
+                      //   ),
+                      //   // child: SizedBox(heig),
+                      // ),
+                      // Image.asset('assets/images/hotspot-model-2b.png',width: 100,),
+                      Image.asset('assets/images/Model_2_Version_2.png',height: 100,),
+                      SizedBox(height:10),
+                      Text('Version 2.0',style: TextStyle(decoration: TextDecoration.underline,),)
+                    ],
+                  )
+                ),
+              ],
+            ),
+            SizedBox(height: 40),
+            Container(
+                        padding: EdgeInsets.all(16.0),
+                          child: Row(
+                children: [
+                  Image(
+                    image: AssetImage(
+                        'assets/images/information-button.png'),
+                    width: 20.0,
+                    height: 20.0,
+                  ),
+                  SizedBox(
+                                      width: 8.0,
+                                    ),
+                                    Flexible(
+                                    child: Text(
+                      'Version 2.0 has a button near the power adapter port and a sticker with text v2.0. Version 1.0 does not have a button.',
+                      textAlign: TextAlign.left,
+                      softWrap: true,
+                      style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13.0,
+                                color: Colors.black38),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
+            
+            
+          ],
         ),
-      ),
     );
+  
   }
 
   Widget mainWidget() {
